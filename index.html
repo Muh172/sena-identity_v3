@@ -1,465 +1,449 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SENEE Diriyah Identity Preview v3</title>
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <style>
-    body { margin: 0; font-family: 'Cormorant Garamond', serif; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سنع — دليل الهوية البصرية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;600;700;800&family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+:root{--tan:#C4A882;--tan-light:#D4BE9C;--tan-pale:#E8D8C0;--sand:#F2E8D5;--cream:#F8F3EB;--parchment:#FAF6EE;--brown:#6B4F3A;--brown-dark:#4A3628;--brown-deep:#3B2A1E;--earth:#8C6E54;--gold:#B8963E;--gold-muted:#A68A50;--charcoal:#2E2318;--warm-gray:#9A8D7E}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{font-family:'Cormorant Garamond',serif;background:var(--parchment);color:var(--brown-dark);overflow-x:hidden}
+.grain{position:relative}.grain::after{content:'';position:absolute;inset:0;pointer-events:none;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.lattice{position:relative}.lattice::before{content:'';position:absolute;inset:0;pointer-events:none;opacity:.03;background-image:repeating-linear-gradient(45deg,transparent,transparent 22px,var(--gold) 22px,var(--gold) 23px),repeating-linear-gradient(-45deg,transparent,transparent 22px,var(--gold) 22px,var(--gold) 23px)}
+.lattice-brown{position:relative}.lattice-brown::before{content:'';position:absolute;inset:0;pointer-events:none;opacity:.05;background-image:repeating-linear-gradient(45deg,transparent,transparent 22px,var(--tan) 22px,var(--tan) 23px),repeating-linear-gradient(-45deg,transparent,transparent 22px,var(--tan) 22px,var(--tan) 23px)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes scaleIn{0%{opacity:0;transform:scale(.9)}100%{opacity:1;transform:scale(1)}}
+.anim-up{animation:fadeUp .7s ease-out both}.anim-scale{animation:scaleIn .6s ease-out both}
+.d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.35s}.d4{animation-delay:.5s}
+.zigzag{display:flex;justify-content:center;overflow:hidden;height:10px;direction:ltr}
+.zigzag .t{width:0;height:0;border-left:6.5px solid transparent;border-right:6.5px solid transparent;border-top:10px solid var(--tan);margin:0 .5px;display:inline-block}
+.hero{background:linear-gradient(170deg,var(--brown-deep) 0%,var(--brown) 60%,var(--earth) 100%);padding:48px 24px 0;text-align:center;position:relative;overflow:hidden}
+.nav{display:flex;gap:4px;padding:14px 16px;overflow-x:auto;position:sticky;top:0;z-index:50;background:var(--parchment);border-bottom:1px solid var(--tan-pale);direction:rtl;justify-content:center}
+.nav a{padding:8px 18px;border-radius:8px;text-decoration:none;font-size:12px;font-weight:700;font-family:'Noto Kufi Arabic',serif;color:var(--earth);white-space:nowrap;transition:all .25s;cursor:pointer}
+.nav a:hover,.nav a.active{background:var(--brown-dark);color:var(--tan-light)}
+section{padding:48px 24px 56px;max-width:880px;margin:0 auto;display:none}
+section#layouts{max-width:1000px}
+section.active{display:block}
+section h2{text-align:center;font-family:'Noto Kufi Arabic',serif;font-size:26px;font-weight:800;margin-bottom:8px}
+.section-desc{text-align:center;font-size:13px;color:var(--warm-gray);max-width:520px;margin:0 auto 28px;line-height:1.8;font-family:'Noto Kufi Arabic',sans-serif;direction:rtl}
+.card{background:var(--sand);border-radius:20px;padding:28px;border:1px solid var(--tan-pale);position:relative;overflow:hidden;margin-bottom:16px}
+.pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:20px}
+.pillar{background:var(--cream);border-radius:14px;padding:16px;border-right:3px solid var(--gold-muted)}
+.pillar h4{font-size:13px;font-weight:700;color:var(--brown);margin-bottom:4px;font-family:'Noto Kufi Arabic',serif;direction:rtl}
+.pillar p{font-size:11px;color:var(--warm-gray);line-height:1.6;font-family:'Noto Kufi Arabic',sans-serif;direction:rtl}
+
+/* Logo boxes */
+.logo-box{border-radius:20px;padding:24px 28px;display:inline-flex;flex-direction:column;align-items:center;gap:14px;position:relative;overflow:hidden}
+.logo-box.dark{background:var(--brown-deep)}.logo-box.light{background:var(--cream);border:1px solid var(--tan-pale)}
+.logo-box .brand{font-family:'Noto Kufi Arabic',serif;font-weight:800;direction:rtl;line-height:1;letter-spacing:4px}
+.logo-box.dark .brand{color:var(--tan-light)}.logo-box.light .brand{color:var(--brown-dark)}
+.logo-box .accent-bar{display:flex;justify-content:center;gap:6px;align-items:center}
+.logo-box .sub{font-size:13px;font-weight:700;letter-spacing:7px;font-family:'Cormorant Garamond',serif}
+.logo-box.dark .sub{color:var(--gold)}.logo-box.light .sub{color:var(--gold-muted)}
+
+
+/* Icons row */
+.icons-row{display:flex;gap:20px;opacity:.45}.icons-row.bottom{opacity:.3}
+.icons-row svg{width:18px;height:18px}.icons-row.bottom svg{width:15px;height:15px}
+
+/* Compact icon */
+.logo-compact{border-radius:22%;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.logo-compact.dark{background:var(--brown-deep)}.logo-compact.light{background:var(--tan)}
+.logo-compact .brand{font-family:'Noto Kufi Arabic',serif;font-weight:800;direction:rtl;line-height:1;position:relative;z-index:1}
+.logo-compact.dark .brand{color:var(--tan-light)}.logo-compact.light .brand{color:var(--cream)}
+
+/* Swatches */
+.swatches{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;margin-bottom:28px}
+.swatch{display:flex;flex-direction:column;align-items:center;gap:8px}
+.swatch-circle{width:76px;height:76px;border-radius:50%;transition:transform .2s}.swatch-circle:hover{transform:scale(1.1)}
+.swatch-name{font-size:11px;font-weight:700;color:var(--brown-dark)}.swatch-hex{font-size:9px;color:var(--warm-gray);font-family:monospace}
+.swatch-label{font-size:13px;color:var(--gold-muted);font-weight:700;margin-bottom:14px;text-align:center;font-family:'Noto Kufi Arabic',serif;direction:rtl}
+
+/* Type samples */
+.type-card{background:var(--sand);border-radius:16px;padding:24px;margin-bottom:14px;border:1px solid var(--tan-pale)}
+.type-label{font-size:12px;color:var(--gold-muted);font-weight:700;margin-bottom:8px;font-family:'Noto Kufi Arabic',serif;direction:rtl}
+
+/* Phone */
+.phones{display:flex;gap:28px;justify-content:center;flex-wrap:wrap}
+.phone-wrap{display:flex;flex-direction:column;align-items:center;gap:8px}
+.phone-wrap>span{font-size:11px;color:var(--gold-muted);font-weight:700;font-family:'Noto Kufi Arabic',serif}
+.phone{width:250px;border-radius:34px;border:2.5px solid var(--brown-dark);overflow:hidden;background:var(--cream);box-shadow:0 20px 60px rgba(46,35,24,.1);transition:transform .3s}.phone:hover{transform:translateY(-4px)}
+.phone-notch{height:24px;background:var(--brown-dark);display:flex;justify-content:center}.phone-notch>div{width:72px;height:20px;background:var(--charcoal);border-radius:0 0 14px 14px}
+.phone-bar{display:flex;justify-content:center;padding:6px 0 14px}.phone-bar>div{width:80px;height:4px;border-radius:2px;background:var(--charcoal);opacity:.12}
+.footer{background:var(--charcoal);padding:32px 24px;text-align:center;position:relative;overflow:hidden}
+
+
+/* Layout section */
+.layout-phones{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;padding:20px 0}
+.lphone-wrap{display:flex;flex-direction:column;align-items:center;gap:6px}
+.lphone-wrap>strong{font-size:13px;font-weight:800;color:var(--brown-dark);font-family:'Noto Kufi Arabic',serif}
+.lphone-wrap>em{font-size:9px;color:var(--warm-gray);font-style:normal;max-width:180px;text-align:center;line-height:1.4}
+.lphone{width:260px;border-radius:32px;border:2.5px solid var(--brown-dark);overflow:hidden;background:var(--cream);box-shadow:0 16px 48px rgba(46,35,24,.1);margin-top:4px}
+.lphone-notch{height:24px;background:var(--brown-dark);display:flex;justify-content:center}.lphone-notch>div{width:72px;height:18px;background:var(--charcoal);border-radius:0 0 12px 12px}
+.lphone-content{height:480px;overflow-y:auto;overflow-x:hidden}
+.lphone-bar{display:flex;justify-content:center;padding:6px 0 10px;background:var(--cream)}.lphone-bar>div{width:70px;height:3px;border-radius:2px;background:var(--charcoal);opacity:.1}
+.lphone-bnav{display:flex;justify-content:space-around;padding:8px 0 4px;border-top:1px solid var(--tan-pale);background:var(--cream);direction:rtl}
+.lphone-bnav span{font-size:14px;opacity:.3}.lphone-bnav span:first-child{opacity:1}
+.lphone-bnav small{font-size:6px;font-family:'Noto Kufi Arabic',sans-serif;color:var(--warm-gray);display:block;text-align:center;margin-top:1px}
+.layout-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:24px}
+.layout-card{background:var(--sand);border-radius:16px;padding:18px;border:2px solid var(--tan-pale);cursor:default;direction:rtl}
+.layout-card .bench{font-size:8px;color:var(--gold-muted);font-weight:700;letter-spacing:1px;margin-bottom:6px}
+.layout-card h3{font-size:14px;font-weight:800;color:var(--brown-dark);font-family:'Noto Kufi Arabic',serif;margin-bottom:6px}
+.layout-card p{font-size:11px;color:var(--warm-gray);line-height:1.6;font-family:'Noto Kufi Arabic',sans-serif;margin-bottom:10px}
+.layout-card .best{font-size:10px;font-weight:700;color:var(--brown);font-family:'Noto Kufi Arabic',serif}
+.compare-table{background:var(--sand);border-radius:16px;overflow:hidden;border:1px solid var(--tan-pale);margin-bottom:20px}
+.compare-head{background:var(--brown-dark);padding:14px 18px}
+.compare-head span{color:var(--tan-light);font-size:14px;font-weight:700;font-family:'Noto Kufi Arabic',serif}
+.compare-row{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;padding:10px 14px;border-bottom:1px solid var(--tan-pale);direction:rtl;font-family:'Noto Kufi Arabic',sans-serif}
+.compare-row:nth-child(odd){background:var(--cream)}.compare-row:nth-child(even){background:var(--sand)}
+.compare-row .feat{font-size:10px;font-weight:700;color:var(--brown-dark);font-family:'Noto Kufi Arabic',serif}
+.compare-row .val{font-size:9px;color:var(--earth)}
+.recommend{background:linear-gradient(135deg,var(--brown-deep),var(--brown));border-radius:16px;padding:24px;position:relative;overflow:hidden;direction:rtl}
+.divider{height:1px;background:linear-gradient(90deg,transparent,var(--tan-pale),transparent);max-width:300px;margin:0 auto}
+@media(max-width:640px){.pillars{grid-template-columns:1fr}.phones{flex-direction:column;align-items:center}.layout-phones{flex-direction:column;align-items:center}.layout-cards{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
-  <div id="root"></div>
 
-  <script type="text/babel">
-const C = {
-  tan: "#C4A882", tanLight: "#D4BE9C", tanPale: "#E8D8C0",
-  sand: "#F2E8D5", cream: "#F8F3EB", parchment: "#FAF6EE",
-  brown: "#6B4F3A", brownDark: "#4A3628", brownDeep: "#3B2A1E",
-  earth: "#8C6E54", gold: "#B8963E", goldMuted: "#A68A50",
-  charcoal: "#2E2318", warmGray: "#9A8D7E",
-};
-
-const NajdiSkyline = ({ color = C.brownDark, height = 60, opacity = 0.12 }) => (
-  <svg viewBox="0 0 400 60" style={{ width: "100%", height, opacity, display: "block" }} preserveAspectRatio="none">
-    <path d="M0,60 L0,45 L15,45 L15,30 L20,30 L20,22 L25,22 L25,30 L30,30 L30,45 L50,45 L50,35 L55,35 L55,20 L58,15 L61,20 L65,20 L65,35 L70,35 L70,45 L90,45 L90,28 L95,28 L95,18 L100,12 L105,18 L110,18 L110,28 L115,28 L115,45 L140,45 L140,38 L145,38 L145,25 L150,20 L155,25 L160,25 L160,38 L165,38 L165,45 L200,45 L200,32 L205,32 L205,22 L208,16 L211,22 L215,22 L215,32 L220,32 L220,45 L260,45 L260,35 L265,35 L265,20 L268,14 L271,20 L275,20 L275,35 L280,35 L280,45 L400,45 L400,60 Z" fill={color} />
-  </svg>
-);
-
-const ZigzagBorder = ({ color = C.tan, count = 24, size = 12 }) => (
-  <div style={{ display: "flex", justifyContent: "center", overflow: "hidden", height: size, direction: "ltr" }}>
-    {Array.from({ length: count }, (_, i) => (
-      <div key={i} style={{ width: 0, height: 0, borderLeft: `${size * 0.65}px solid transparent`, borderRight: `${size * 0.65}px solid transparent`, borderTop: `${size}px solid ${color}`, margin: "0 0.5px" }} />
-    ))}
+<!-- HERO -->
+<header class="hero grain lattice">
+  <div class="anim-up d1" style="display:inline-block;background:rgba(184,150,62,.1);border-radius:20px;padding:6px 20px;margin-bottom:24px">
+    <span style="color:#D4BE9C;font-size:11px;font-weight:700;font-family:'Noto Kufi Arabic',serif;direction:rtl">◇&nbsp;&nbsp;دليل الهوية البصرية  &nbsp;&nbsp;◇</span>
   </div>
-);
 
-const GrainOverlay = () => (
-  <div style={{ position: "absolute", inset: 0, pointerEvents: "none", opacity: 0.05, backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")` }} />
-);
-
-const LatticePattern = ({ color = C.tan, opacity = 0.06 }) => (
-  <div style={{ position: "absolute", inset: 0, pointerEvents: "none", opacity, backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 22px, ${color} 22px, ${color} 23px), repeating-linear-gradient(-45deg, transparent, transparent 22px, ${color} 22px, ${color} 23px)` }} />
-);
-
-/* ═══════════════════════════════════════════════════════
-   GEOMETRIC LOGO — سنع  
-   Arabic RTL order: س (RIGHT) → ن (MIDDLE) → ع (LEFT)
-   All letters designed as architectural Arabic blocks
-   ═══════════════════════════════════════════════════════ */
-
-const LogoGeometric = ({ size = 280, dark = true, showIcons = true }) => {
-  const bg = dark ? C.brownDeep : C.cream;
-  const fg = dark ? C.tanLight : C.brownDark;
-  const accent = dark ? C.gold : C.goldMuted;
-
-  return (
-    <div style={{
-      background: bg, borderRadius: 20,
-      padding: showIcons ? "24px 28px" : "18px 24px",
-      display: "inline-flex", flexDirection: "column", alignItems: "center",
-      gap: showIcons ? 14 : 8, position: "relative", overflow: "hidden",
-    }}>
-      <GrainOverlay />
-
-      {showIcons && (
-        <div style={{ display: "flex", gap: 20, position: "relative", zIndex: 1, opacity: 0.45 }}>
-          <svg width="18" height="18" viewBox="0 0 24 24"><rect x="8" y="6" width="8" height="18" fill={fg} /><rect x="6" y="14" width="12" height="2" fill={fg} /><rect x="10" y="2" width="4" height="5" fill={fg} /><rect x="11" y="0" width="2" height="3" fill={fg} opacity=".7" /></svg>
-          <svg width="18" height="18" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2" fill={fg} /><rect x="4" y="8" width="16" height="3" fill={fg} /><rect x="10" y="4" width="4" height="5" fill={fg} /><rect x="8" y="2" width="2" height="3" fill={fg} opacity=".6" /><rect x="14" y="2" width="2" height="3" fill={fg} opacity=".6" /></svg>
-          <svg width="18" height="18" viewBox="0 0 24 24"><ellipse cx="12" cy="18" rx="10" ry="4" fill={fg} /><path d="M4,16 Q12,4 20,16" fill="none" stroke={fg} strokeWidth="2" /></svg>
-          <svg width="18" height="18" viewBox="0 0 24 24"><path d="M4,20 L4,12 L6,12 L6,8 L8,6 L10,6 L10,8 L14,8 L14,6 L16,4 L17,6 L18,8 L18,12 L20,12 L20,20" fill="none" stroke={fg} strokeWidth="1.5" strokeLinejoin="round" /></svg>
-        </div>
-      )}
-
-      {/* Main geometric wordmark — RTL: س (right) ن (middle) ع (left) */}
-      <svg width={size} height={size * 0.48} viewBox="0 0 280 132" style={{ position: "relative", zIndex: 1 }}>
-
-        {/* ═══ س (sin) — RIGHT SIDE — three rising teeth ═══ */}
-        {/* Tallest tooth */}
-        <rect x="250" y="28" width="11" height="68" fill={fg} />
-        {/* Middle tooth */}
-        <rect x="228" y="40" width="11" height="56" fill={fg} />
-        {/* Shortest tooth */}
-        <rect x="206" y="50" width="11" height="46" fill={fg} />
-        {/* Base bar */}
-        <rect x="186" y="85" width="75" height="11" fill={fg} />
-
-        {/* ═══ ن (nun) — MIDDLE — bowl with dot ═══ */}
-        {/* Right wall */}
-        <rect x="168" y="55" width="11" height="41" fill={fg} />
-        {/* Base */}
-        <rect x="112" y="85" width="67" height="11" fill={fg} />
-        {/* Left wall */}
-        <rect x="112" y="55" width="11" height="41" fill={fg} />
-        {/* Gold square dot above */}
-        <rect x="134" y="37" width="13" height="13" fill={accent} />
-
-        {/* ═══ ع (ain) — LEFT SIDE — open-top Arabic ain shape ═══ */}
-        {/* Right vertical (tall pillar) */}
-        <rect x="90" y="28" width="11" height="68" fill={fg} />
-        {/* Top cap — short horizontal, only extends partway left */}
-        <rect x="62" y="28" width="39" height="11" fill={fg} />
-        {/* — open gap here = the "eye" of the ع — */}
-        {/* Middle horizontal — extends further left than top */}
-        <rect x="32" y="55" width="69" height="11" fill={fg} />
-        {/* Descender — drops from left end of middle bar */}
-        <rect x="32" y="55" width="11" height="38" fill={fg} />
-        {/* Descender foot — kicks left */}
-        <rect x="18" y="82" width="25" height="11" fill={fg} />
-
-        {/* Connection bar — ع to ن baseline */}
-        <rect x="93" y="85" width="30" height="11" fill={fg} />
-
-        {/* Diagonal slash accent — between ن and س */}
-        <rect x="188" y="18" width="4" height="36" fill={accent} opacity=".55" transform="rotate(-18 190 36)" />
-      </svg>
-
-      {/* Arabic subtitle */}
-      <div style={{ position: "relative", zIndex: 1, display: "flex", alignItems: "center", gap: 10 }}>
-        <div style={{ width: 18, height: 1, background: accent, opacity: 0.4 }} />
-        <span style={{ fontSize: 13, fontWeight: 700, letterSpacing: 7, color: accent, fontFamily: "'Cormorant Garamond', serif" }}>
-          SENEE
-        </span>
-        <div style={{ width: 18, height: 1, background: accent, opacity: 0.4 }} />
+  <!-- Main logo — font version -->
+  <div class="anim-scale d2" style="margin:0 auto 20px">
+    <div class="logo-box dark" style="padding:24px 40px">
+      <div class="icons-row">
+        <svg viewBox="0 0 24 24"><rect x="8" y="6" width="8" height="18" fill="#D4BE9C"/><rect x="6" y="14" width="12" height="2" fill="#D4BE9C"/><rect x="10" y="2" width="4" height="5" fill="#D4BE9C"/></svg>
+        <svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2" fill="#D4BE9C"/><rect x="4" y="8" width="16" height="3" fill="#D4BE9C"/><rect x="10" y="4" width="4" height="5" fill="#D4BE9C"/></svg>
+        <svg viewBox="0 0 24 24"><ellipse cx="12" cy="18" rx="10" ry="4" fill="#D4BE9C"/><path d="M4,16 Q12,4 20,16" fill="none" stroke="#D4BE9C" stroke-width="2"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M4,20 L4,12 L6,12 L6,8 L8,6 L10,6 L10,8 L14,8 L14,6 L16,4 L17,6 L18,8 L18,12 L20,12 L20,20" fill="none" stroke="#D4BE9C" stroke-width="1.5" stroke-linejoin="round"/></svg>
       </div>
-
-      {showIcons && (
-        <div style={{ display: "flex", gap: 20, position: "relative", zIndex: 1, opacity: 0.3 }}>
-          <svg width="15" height="15" viewBox="0 0 24 24"><path d="M4,20 L4,12 L6,12 L6,8 L8,6 L10,6 L10,8 L14,8 L14,6 L16,4 L17,6 L18,8 L18,12 L20,12 L20,20" fill="none" stroke={fg} strokeWidth="1.5" strokeLinejoin="round" /></svg>
-          <svg width="15" height="15" viewBox="0 0 24 24"><rect x="8" y="6" width="8" height="18" fill={fg} /><rect x="10" y="2" width="4" height="5" fill={fg} /></svg>
-          <svg width="15" height="15" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2" fill={fg} /><rect x="4" y="8" width="16" height="3" fill={fg} /><rect x="10" y="4" width="4" height="5" fill={fg} /></svg>
-          <svg width="15" height="15" viewBox="0 0 24 24"><ellipse cx="12" cy="18" rx="10" ry="4" fill={fg} /><path d="M4,16 Q12,4 20,16" fill="none" stroke={fg} strokeWidth="2" /></svg>
-        </div>
-      )}
-    </div>
-  );
-};
-
-/* Compact app icon — RTL corrected */
-const LogoCompact = ({ size = 80, dark = true }) => {
-  const bg = dark ? C.brownDeep : C.tan;
-  const fg = dark ? C.tanLight : C.cream;
-  const accent = dark ? C.gold : C.brownDark;
-  return (
-    <svg width={size} height={size} viewBox="0 0 80 80">
-      <rect width="80" height="80" rx="18" fill={bg} />
-
-      {/* س (sin) — RIGHT — three teeth */}
-      <rect x="66" y="18" width="5" height="34" fill={fg} />
-      <rect x="56" y="25" width="5" height="27" fill={fg} />
-      <rect x="46" y="30" width="5" height="22" fill={fg} />
-      <rect x="42" y="48" width="29" height="5" fill={fg} />
-
-      {/* ن (nun) — MIDDLE — bowl */}
-      <rect x="38" y="32" width="5" height="21" fill={fg} />
-      <rect x="24" y="48" width="19" height="5" fill={fg} />
-      <rect x="24" y="32" width="5" height="21" fill={fg} />
-      {/* Gold dot */}
-      <rect x="29" y="24" width="6" height="6" fill={accent} />
-
-      {/* ع (ain) — LEFT — open-top ain */}
-      <rect x="18" y="18" width="5" height="35" fill={fg} />
-      {/* Short top cap */}
-      <rect x="12" y="18" width="11" height="5" fill={fg} />
-      {/* — open eye gap — */}
-      {/* Middle bar extends further left */}
-      <rect x="6" y="31" width="17" height="5" fill={fg} />
-      {/* Descender */}
-      <rect x="6" y="31" width="5" height="18" fill={fg} />
-      <rect x="3" y="45" width="8" height="5" fill={fg} />
-
-      {/* Connection baseline */}
-      <rect x="19" y="48" width="12" height="5" fill={fg} />
-
-      {/* Diagonal accent */}
-      <rect x="43" y="13" width="2" height="14" fill={accent} opacity=".5" transform="rotate(-18 44 20)" />
-
-      {/* Arabic subtitle */}
-      <text x="40" y="68" textAnchor="middle" fontSize="7" fill={accent} fontFamily="'Cormorant Garamond', serif" fontWeight="700" letterSpacing="3">SENع</text>
-    </svg>
-  );
-};
-
-const Swatch = ({ color, name, hex }) => (
-  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
-    <div style={{ width: 76, height: 76, borderRadius: "50%", background: color, boxShadow: `0 6px 20px ${color}44`, border: hex === "#F8F3EB" ? `1px solid ${C.tanPale}` : "none" }} />
-    <span style={{ fontSize: 11, fontWeight: 700, color: C.brownDark }}>{name}</span>
-    <span style={{ fontSize: 9, color: C.warmGray, fontFamily: "monospace" }}>{hex}</span>
-  </div>
-);
-
-const PhoneMockup = ({ children, label }) => (
-  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
-    <span style={{ fontSize: 11, color: C.goldMuted, fontWeight: 700, fontFamily: "'Noto Kufi Arabic', serif" }}>{label}</span>
-    <div style={{ width: 240, borderRadius: 32, border: `2.5px solid ${C.brownDark}`, overflow: "hidden", background: C.cream, boxShadow: `0 24px 64px ${C.brownDark}22` }}>
-      <div style={{ height: 22, background: C.brownDark, display: "flex", justifyContent: "center" }}>
-        <div style={{ width: 68, height: 18, background: C.charcoal, borderRadius: "0 0 12px 12px" }} />
-      </div>
-      {children}
-      <div style={{ display: "flex", justifyContent: "center", padding: "8px 0 14px" }}>
-        <div style={{ width: 80, height: 4, borderRadius: 2, background: C.charcoal, opacity: 0.15 }} />
+      <div class="brand" style="font-size:72px">سـنع</div>
+      <div class="accent-bar"><div style="width:20px;height:3px;background:#B8963E;border-radius:2px;opacity:.5"></div><div style="width:60px;height:4px;background:#B8963E;border-radius:2px"></div><div style="width:20px;height:3px;background:#B8963E;border-radius:2px;opacity:.5"></div></div>
+      <div class="sub" style="display:flex;align-items:center;gap:10px"><div style="width:18px;height:1px;background:#B8963E;opacity:.4"></div>SENEE<div style="width:18px;height:1px;background:#B8963E;opacity:.4"></div></div>
+      <div class="icons-row bottom">
+        <svg viewBox="0 0 24 24"><path d="M4,20 L4,12 L6,12 L6,8 L8,6 L10,6 L10,8 L14,8 L14,6 L16,4 L17,6 L18,8 L18,12 L20,12 L20,20" fill="none" stroke="#D4BE9C" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        <svg viewBox="0 0 24 24"><rect x="8" y="6" width="8" height="18" fill="#D4BE9C"/><rect x="10" y="2" width="4" height="5" fill="#D4BE9C"/></svg>
+        <svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2" fill="#D4BE9C"/><rect x="4" y="8" width="16" height="3" fill="#D4BE9C"/><rect x="10" y="4" width="4" height="5" fill="#D4BE9C"/></svg>
+        <svg viewBox="0 0 24 24"><ellipse cx="12" cy="18" rx="10" ry="4" fill="#D4BE9C"/><path d="M4,16 Q12,4 20,16" fill="none" stroke="#D4BE9C" stroke-width="2"/></svg>
       </div>
     </div>
   </div>
-);
 
-function SenaIdentity() {
-  const [section, setSection] = React.useState("cover");
-  const [loaded, setLoaded] = React.useState(false);
-  React.useEffect(() => { setTimeout(() => setLoaded(true), 100); }, []);
+  <div class="anim-up d3">
+    <p style="color:#E8D8C0;font-size:14px;font-weight:700;font-family:'Noto Kufi Arabic',serif;margin:0 0 6px;direction:rtl"></p>
+    <p style="color:rgba(212,190,156,.35);font-size:12px;margin:0 0 28px;font-family:'Noto Kufi Arabic',serif;direction:rtl"></p>
+  </div>
+  <div class="anim-up d4">
+    <svg viewBox="0 0 400 48" style="width:100%;height:48px;display:block;opacity:.3" preserveAspectRatio="none"><path d="M0,48 L0,36 L15,36 L15,24 L20,24 L20,17 L25,17 L25,24 L30,24 L30,36 L50,36 L50,28 L55,28 L55,16 L58,12 L61,16 L65,16 L65,28 L70,28 L70,36 L90,36 L90,22 L95,22 L95,14 L100,10 L105,14 L110,14 L110,22 L115,22 L115,36 L140,36 L140,30 L145,30 L145,20 L150,16 L155,20 L160,20 L160,30 L165,30 L165,36 L200,36 L200,26 L205,26 L205,17 L208,13 L211,17 L215,17 L215,26 L220,26 L220,36 L260,36 L260,28 L265,28 L265,16 L268,11 L271,16 L275,16 L275,28 L280,28 L280,36 L400,36 L400,48 Z" fill="#FAF6EE"/></svg>
+  </div>
+</header>
+<div class="zigzag anim-up d4"><span class="t"></span><span class="t"></span><span class="t"></span><span class="t"></span><span class="t"></span><span class="t"></span><span class="t"></span><span class="t"></span><span class="t"></span><span class="t"></span><span class="t"></span><span class="t"></span><span class="t"></span><span class="t"></span><span class="t"></span><span class="t"></span><span class="t"></span><span class="t"></span><span class="t"></span><span class="t"></span><span class="t"></span><span class="t"></span><span class="t"></span><span class="t"></span><span class="t"></span><span class="t"></span><span class="t"></span><span class="t"></span><span class="t"></span><span class="t"></span></div>
 
-  const nav = [
-    { id: "cover", label: "نظرة عامة" },
-    { id: "palette", label: "الألوان" },
-    { id: "type", label: "الخطوط" },
-    { id: "elements", label: "العناصر" },
-    { id: "screens", label: "التطبيق" },
-  ];
+<!-- NAV -->
+<nav class="nav"><a class="active" onclick="show('cover',this)">نظرة عامة</a><a onclick="show('palette',this)">الألوان</a><a onclick="show('type',this)">الخطوط</a><a onclick="show('elements',this)">العناصر</a><a onclick="show('screens',this)">التطبيق</a><a onclick="show('layouts',this)">أفكار التخطيط</a></nav>
 
-  return (
-    <div style={{ fontFamily: "'Cormorant Garamond', serif", background: C.parchment, minHeight: "100vh", color: C.brownDark, transition: "opacity 0.6s", opacity: loaded ? 1 : 0 }}>
-      <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;600;700;800&family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet" />
-
-      {/* HERO */}
-      <div style={{ background: `linear-gradient(170deg, ${C.brownDeep} 0%, ${C.brown} 60%, ${C.earth} 100%)`, padding: "48px 24px 0", position: "relative", overflow: "hidden", textAlign: "center" }}>
-        <GrainOverlay />
-        <LatticePattern color={C.gold} opacity={0.03} />
-        <div style={{ position: "relative", zIndex: 1 }}>
-          <div style={{ display: "inline-block", background: `${C.gold}18`, borderRadius: 20, padding: "6px 20px", marginBottom: 24 }}>
-            <span style={{ color: C.tanLight, fontSize: 11, fontWeight: 700, fontFamily: "'Noto Kufi Arabic', serif", direction: "rtl" }}>◇&nbsp;&nbsp;دليل الهوية البصرية — نسخة الدرعية&nbsp;&nbsp;◇</span>
-          </div>
-          <div style={{ margin: "0 auto 20px" }}>
-            <LogoGeometric size={240} dark showIcons />
-          </div>
-          <p style={{ color: C.tanPale, fontSize: 14, fontWeight: 700, fontFamily: "'Noto Kufi Arabic', serif", margin: "0 0 8px", direction: "rtl" }}></p>
-          <p style={{ color: `${C.tanLight}55`, fontSize: 12, margin: "0 0 28px", fontFamily: "'Noto Kufi Arabic', serif", direction: "rtl" }}>مستوحاة من تراث الدرعية</p>
-        </div>
-        <div style={{ position: "relative", zIndex: 1 }}><NajdiSkyline color={C.parchment} height={48} opacity={0.3} /></div>
-      </div>
-      <ZigzagBorder color={C.tan} count={30} size={10} />
-
-      {/* NAV */}
-      <div style={{ display: "flex", gap: 2, padding: "14px 16px", overflowX: "auto", position: "sticky", top: 0, zIndex: 20, background: C.parchment, borderBottom: `1px solid ${C.tanPale}`, direction: "rtl", justifyContent: "center" }}>
-        {nav.map(n => (
-          <button key={n.id} onClick={() => setSection(n.id)} style={{ padding: "7px 16px", borderRadius: 8, border: "none", cursor: "pointer", fontSize: 12, fontWeight: 700, fontFamily: "'Noto Kufi Arabic', serif", background: section === n.id ? C.brownDark : "transparent", color: section === n.id ? C.tanLight : C.earth, transition: "all 0.25s", whiteSpace: "nowrap" }}>{n.label}</button>
-        ))}
-      </div>
-
-      <div style={{ padding: "28px 20px 40px", maxWidth: 860, margin: "0 auto" }}>
-
-        {/* نظرة عامة */}
-        {section === "cover" && (
-          <div>
-            <div style={{ textAlign: "center", marginBottom: 28 }}>
-              <h2 style={{ fontFamily: "'Noto Kufi Arabic', serif", fontSize: 26, fontWeight: 800, margin: "8px 0 6px", direction: "rtl" }}>هوية بصرية مستوحاة من الدرعية</h2>
-              <p style={{ fontSize: 14, color: C.warmGray, maxWidth: 520, margin: "0 auto", lineHeight: 1.8, fontFamily: "'Noto Kufi Arabic', serif", direction: "rtl" }}>حروف عربية هندسية مبنية من كتل معمارية — مستوحاة من عمارة الدرعية النجدية</p>
-            </div>
-
-            <div style={{ background: C.sand, borderRadius: 20, padding: 28, border: `1px solid ${C.tanPale}`, position: "relative", overflow: "hidden", marginBottom: 28 }}>
-              <LatticePattern color={C.tan} opacity={0.05} />
-              <p style={{ fontSize: 14, lineHeight: 2, color: C.brownDark, position: "relative", zIndex: 1, margin: "0 0 20px", fontFamily: "'Noto Kufi Arabic', serif", direction: "rtl", textAlign: "right" }}>
-                شعار <strong style={{ color: C.brown }}>سنع</strong> مبني من <strong style={{ color: C.goldMuted }}>كتل مستطيلة</strong> ويُقرأ من اليمين لليسار. حرف <strong>السين</strong> على اليمين بثلاثة أسنان كشرفات الأبراج، و<strong>النون</strong> في الوسط كفناء بنقطة ذهبية، و<strong>العين</strong> على اليسار كبوابة نجدية بمدخل متصل.
-              </p>
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 12, position: "relative", zIndex: 1 }}>
-                {[
-                  { t: "س — أسنان الأبراج", d: "ثلاثة أعمدة صاعدة على اليمين كأبراج الدرعية" },
-                  { t: "ن — فناء البيت", d: "جدارين مع قاعدة ونقطة ذهبية في الأعلى" },
-                  { t: "ع — البوابة النجدية", d: "شكل بوابة بعارضتين أفقيتين ومنزل سفلي" },
-                  { t: "أيقونات رمزية", d: "برج · قدر · طبق · إبل — تحيط بالشعار" },
-                ].map((p, i) => (
-                  <div key={i} style={{ background: C.cream, borderRadius: 14, padding: 16, borderRight: `3px solid ${C.goldMuted}` }}>
-                    <div style={{ fontSize: 13, fontWeight: 700, color: C.brown, marginBottom: 4, fontFamily: "'Noto Kufi Arabic', serif", direction: "rtl" }}>{p.t}</div>
-                    <div style={{ fontSize: 11, color: C.warmGray, lineHeight: 1.6, fontFamily: "'Noto Kufi Arabic', serif", direction: "rtl" }}>{p.d}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div style={{ textAlign: "center", marginBottom: 12 }}>
-              <span style={{ fontSize: 13, color: C.goldMuted, fontWeight: 700, fontFamily: "'Noto Kufi Arabic', serif" }}>أشكال الشعار</span>
-            </div>
-            <div style={{ display: "flex", gap: 24, justifyContent: "center", flexWrap: "wrap", marginBottom: 28 }}>
-              <LogoGeometric size={240} dark showIcons />
-              <LogoGeometric size={240} dark={false} showIcons />
-            </div>
-
-            <div style={{ textAlign: "center", marginBottom: 12 }}>
-              <span style={{ fontSize: 13, color: C.goldMuted, fontWeight: 700, fontFamily: "'Noto Kufi Arabic', serif" }}>أحجام أيقونة التطبيق</span>
-            </div>
-            <div style={{ display: "flex", gap: 16, justifyContent: "center", alignItems: "end", flexWrap: "wrap" }}>
-              <LogoCompact size={80} dark />
-              <LogoCompact size={80} dark={false} />
-              <LogoCompact size={56} dark />
-              <LogoCompact size={44} dark={false} />
-              <LogoCompact size={36} dark />
-            </div>
-          </div>
-        )}
-
-        {/* الألوان */}
-        {section === "palette" && (
-          <div>
-            <div style={{ textAlign: "center", marginBottom: 28 }}>
-              <h2 style={{ fontFamily: "'Noto Kufi Arabic', serif", fontSize: 26, fontWeight: 800, margin: "8px 0 6px", direction: "rtl" }}>الألوان</h2>
-              <p style={{ fontSize: 13, color: C.warmGray, fontFamily: "'Noto Kufi Arabic', serif", direction: "rtl" }}>مستوحاة من لون الدرعية — مزيج من ١٥ مادة أصيلة</p>
-            </div>
-            {[
-              { label: "الأساسي — لون الدرعية", swatches: [{ color: C.tan, name: "لون الدرعية", hex: "#C4A882" }, { color: C.tanLight, name: "فاتح", hex: "#D4BE9C" }, { color: C.tanPale, name: "باهت", hex: "#E8D8C0" }] },
-              { label: "الأرض", swatches: [{ color: C.brown, name: "بني طيني", hex: "#6B4F3A" }, { color: C.brownDark, name: "أرض داكنة", hex: "#4A3628" }, { color: C.earth, name: "صحراوي", hex: "#8C6E54" }] },
-              { label: "التمييز", swatches: [{ color: C.gold, name: "ذهب تراثي", hex: "#B8963E" }, { color: C.charcoal, name: "ليل نجدي", hex: "#2E2318" }, { color: C.cream, name: "رق", hex: "#F8F3EB" }] },
-            ].map((group, gi) => (
-              <div key={gi} style={{ marginBottom: 28 }}>
-                <div style={{ fontSize: 13, color: C.goldMuted, fontWeight: 700, marginBottom: 14, textAlign: "center", fontFamily: "'Noto Kufi Arabic', serif", direction: "rtl" }}>{group.label}</div>
-                <div style={{ display: "flex", gap: 24, justifyContent: "center", flexWrap: "wrap" }}>{group.swatches.map((s, si) => <Swatch key={si} {...s} />)}</div>
-              </div>
-            ))}
-            <div style={{ height: 40, borderRadius: 12, background: `linear-gradient(90deg, ${C.brownDeep}, ${C.brown}, ${C.earth}, ${C.tan}, ${C.tanLight}, ${C.sand}, ${C.cream})` }} />
-          </div>
-        )}
-
-        {/* الخطوط */}
-        {section === "type" && (
-          <div>
-            <div style={{ textAlign: "center", marginBottom: 28 }}>
-              <h2 style={{ fontFamily: "'Noto Kufi Arabic', serif", fontSize: 26, fontWeight: 800, margin: "8px 0 6px", direction: "rtl" }}>الخطوط</h2>
-            </div>
-            <div style={{ background: C.sand, borderRadius: 16, padding: 24, marginBottom: 14, border: `1px solid ${C.tanPale}` }}>
-              <div style={{ fontSize: 13, color: C.goldMuted, fontWeight: 700, marginBottom: 12, fontFamily: "'Noto Kufi Arabic', serif", direction: "rtl" }}>خط الشعار — هندسي مخصص</div>
-              <div style={{ display: "flex", justifyContent: "center" }}><LogoGeometric size={200} dark showIcons={false} /></div>
-            </div>
-            {[
-              { label: "عناوين", ar: "طبخ بيتي · من أرض الدرعية", w: 700, s: 28 },
-              { label: "نص عادي", ar: "اكتشف مطابخ منزلية موثوقة بالقرب منك", w: 400, s: 20 },
-              { label: "أرقام وأسعار", ar: "٤٥ ر.س · ⭐ ٤.٨ · طلب رقم ١٠٢٤", w: 600, s: 22 },
-            ].map((t, i) => (
-              <div key={i} style={{ background: C.sand, borderRadius: 16, padding: 24, marginBottom: 14, border: `1px solid ${C.tanPale}` }}>
-                <div style={{ fontSize: 12, color: C.goldMuted, fontWeight: 700, marginBottom: 8, fontFamily: "'Noto Kufi Arabic', serif", direction: "rtl" }}>{t.label}</div>
-                <div style={{ fontSize: t.s, fontFamily: "'Noto Kufi Arabic', serif", fontWeight: t.w, color: C.brownDark, direction: "rtl", textAlign: "right" }}>{t.ar}</div>
-              </div>
-            ))}
-            <div style={{ marginTop: 20, background: C.brownDeep, borderRadius: 16, padding: 36, textAlign: "center", position: "relative", overflow: "hidden" }}>
-              <LatticePattern color={C.gold} opacity={0.03} /><GrainOverlay />
-              <div style={{ fontFamily: "'Noto Kufi Arabic', serif", fontSize: 34, fontWeight: 800, color: C.tanLight, position: "relative", zIndex: 1, marginBottom: 8, direction: "rtl" }}>سنع — من أرض الدرعية</div>
-              <div style={{ position: "relative", zIndex: 1 }}><NajdiSkyline color={C.tanPale} height={32} opacity={0.2} /></div>
-              <div style={{ fontFamily: "'Noto Kufi Arabic', serif", fontSize: 13, color: C.gold, position: "relative", zIndex: 1, marginTop: 8, direction: "rtl" }}>صُنع بإتقان من البيت</div>
-            </div>
-          </div>
-        )}
-
-        {/* العناصر */}
-        {section === "elements" && (
-          <div>
-            <div style={{ textAlign: "center", marginBottom: 28 }}>
-              <h2 style={{ fontFamily: "'Noto Kufi Arabic', serif", fontSize: 26, fontWeight: 800, margin: "8px 0 6px", direction: "rtl" }}>العناصر الزخرفية</h2>
-            </div>
-            <div style={{ background: C.sand, borderRadius: 16, padding: 24, marginBottom: 16, border: `1px solid ${C.tanPale}` }}>
-              <div style={{ fontSize: 13, color: C.goldMuted, fontWeight: 700, marginBottom: 12, fontFamily: "'Noto Kufi Arabic', serif", direction: "rtl" }}>٠١ — أيقونات رمزية</div>
-              <div style={{ background: C.brownDeep, borderRadius: 14, padding: 24, display: "flex", gap: 32, justifyContent: "center", flexWrap: "wrap" }}>
-                {[
-                  { label: "برج", icon: <svg width="36" height="36" viewBox="0 0 24 24"><rect x="8" y="6" width="8" height="18" fill={C.tanLight} /><rect x="6" y="14" width="12" height="2" fill={C.tanLight} /><rect x="10" y="2" width="4" height="5" fill={C.tanLight} /></svg> },
-                  { label: "قدر", icon: <svg width="36" height="36" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2" fill={C.tanLight} /><rect x="4" y="8" width="16" height="3" fill={C.tanLight} /><rect x="10" y="4" width="4" height="5" fill={C.tanLight} /></svg> },
-                  { label: "طبق", icon: <svg width="36" height="36" viewBox="0 0 24 24"><ellipse cx="12" cy="18" rx="10" ry="4" fill={C.tanLight} /><path d="M4,16 Q12,4 20,16" fill="none" stroke={C.tanLight} strokeWidth="2" /></svg> },
-                  { label: "إبل", icon: <svg width="36" height="36" viewBox="0 0 24 24"><path d="M4,20 L4,12 L6,12 L6,8 L8,6 L10,6 L10,8 L14,8 L14,6 L16,4 L17,6 L18,8 L18,12 L20,12 L20,20" fill="none" stroke={C.tanLight} strokeWidth="1.5" strokeLinejoin="round" /></svg> },
-                ].map((item, i) => (
-                  <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
-                    {item.icon}
-                    <span style={{ fontSize: 11, color: C.goldMuted, fontFamily: "'Noto Kufi Arabic', serif" }}>{item.label}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div style={{ background: C.sand, borderRadius: 16, padding: 24, marginBottom: 16, border: `1px solid ${C.tanPale}` }}>
-              <div style={{ fontSize: 13, color: C.goldMuted, fontWeight: 700, marginBottom: 8, fontFamily: "'Noto Kufi Arabic', serif", direction: "rtl" }}>٠٢ — أفق نجدي</div>
-              <div style={{ background: C.brownDark, borderRadius: 12, padding: "24px 16px 0", overflow: "hidden" }}><NajdiSkyline color={C.tanLight} height={50} opacity={0.6} /></div>
-            </div>
-            <div style={{ background: C.sand, borderRadius: 16, padding: 24, border: `1px solid ${C.tanPale}` }}>
-              <div style={{ fontSize: 13, color: C.goldMuted, fontWeight: 700, marginBottom: 8, fontFamily: "'Noto Kufi Arabic', serif", direction: "rtl" }}>٠٣ — حدود متعرجة</div>
-              <div style={{ background: C.brownDark, borderRadius: 12, padding: "16px 12px", display: "flex", flexDirection: "column", gap: 10 }}>
-                <ZigzagBorder color={C.tanLight} count={18} size={12} />
-                <ZigzagBorder color={C.gold} count={18} size={10} />
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* التطبيق */}
-        {section === "screens" && (
-          <div>
-            <div style={{ textAlign: "center", marginBottom: 28 }}>
-              <h2 style={{ fontFamily: "'Noto Kufi Arabic', serif", fontSize: 26, fontWeight: 800, margin: "8px 0 6px", direction: "rtl" }}>تصاميم التطبيق</h2>
-            </div>
-            <div style={{ display: "flex", gap: 28, justifyContent: "center", flexWrap: "wrap" }}>
-              <PhoneMockup label="شاشة البداية">
-                <div style={{ background: C.brownDeep, height: 440, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden" }}>
-                  <GrainOverlay /><LatticePattern color={C.gold} opacity={0.025} />
-                  <div style={{ position: "relative", zIndex: 1 }}><LogoCompact size={72} dark /></div>
-                  <div style={{ marginTop: 16, position: "relative", zIndex: 1 }}><NajdiSkyline color={C.tanPale} height={28} opacity={0.12} /></div>
-                </div>
-              </PhoneMockup>
-
-              <PhoneMockup label="الرئيسية">
-                <div style={{ background: `linear-gradient(160deg, ${C.brownDeep}, ${C.brown})`, padding: "14px 16px 0", position: "relative", overflow: "hidden" }}>
-                  <LatticePattern color={C.gold} opacity={0.04} />
-                  <div style={{ position: "relative", zIndex: 1 }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                      <div style={{ direction: "rtl" }}>
-                        <div style={{ color: C.tanPale, fontSize: 9, opacity: 0.6, fontFamily: "'Noto Kufi Arabic', serif" }}>أهلاً بك في</div>
-                        <LogoCompact size={28} dark />
-                      </div>
-                      <div style={{ width: 30, height: 30, borderRadius: "50%", background: `${C.tan}22`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13 }}>🔔</div>
-                    </div>
-                    <div style={{ margin: "12px 0 0", background: `${C.tan}18`, borderRadius: 10, padding: "8px 12px", color: `${C.tanPale}66`, fontSize: 9, fontFamily: "'Noto Kufi Arabic'", direction: "rtl" }}>🔍 ابحث عن طبخات...</div>
-                  </div>
-                  <div style={{ marginTop: 10, position: "relative", zIndex: 1 }}><NajdiSkyline color={C.cream} height={20} opacity={0.15} /></div>
-                </div>
-                <ZigzagBorder color={C.tan} count={16} size={8} />
-                <div style={{ padding: "10px 14px", direction: "rtl" }}>
-                  <div style={{ fontSize: 10, fontWeight: 700, fontFamily: "'Noto Kufi Arabic', serif", color: C.brownDark, marginBottom: 8 }}>التصنيفات</div>
-                  <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
-                    {[{ e: "🍚", l: "وجبات", a: true }, { e: "🧁", l: "حلويات" }, { e: "☕", l: "فطور" }, { e: "🥗", l: "صحي" }].map((c, i) => (
-                      <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 3 }}>
-                        <div style={{ width: 36, height: 36, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, background: c.a ? C.tan : C.sand }}>{c.e}</div>
-                        <span style={{ fontSize: 7, fontWeight: 600, fontFamily: "'Noto Kufi Arabic'", color: c.a ? C.brown : C.warmGray }}>{c.l}</span>
-                      </div>
-                    ))}
-                  </div>
-                  <div style={{ fontSize: 10, fontWeight: 700, fontFamily: "'Noto Kufi Arabic', serif", color: C.brownDark, marginBottom: 8 }}>مطابخ مميزة</div>
-                  {[{ name: "مطبخ أم نورة", tag: "نجدي", rating: "٤.٨", bg: C.sand }, { name: "بيت الكبسة", tag: "حجازي", rating: "٤.٩", bg: C.tanPale }].map((v, i) => (
-                    <div key={i} style={{ background: v.bg, borderRadius: 10, padding: 10, marginBottom: 6, display: "flex", gap: 8, alignItems: "center" }}>
-                      <div style={{ width: 38, height: 38, borderRadius: 10, background: C.brown, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, flexShrink: 0 }}>🍽️</div>
-                      <div>
-                        <div style={{ fontSize: 10, fontWeight: 700, fontFamily: "'Noto Kufi Arabic', serif", color: C.brownDark }}>{v.name}</div>
-                        <div style={{ display: "flex", gap: 4, alignItems: "center", marginTop: 2 }}>
-                          <span style={{ fontSize: 7, background: C.brown, color: C.cream, padding: "1px 5px", borderRadius: 4 }}>{v.tag}</span>
-                          <span style={{ fontSize: 8, color: C.goldMuted }}>⭐ {v.rating}</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <div style={{ display: "flex", justifyContent: "space-around", padding: "8px 0 6px", borderTop: `1px solid ${C.tanPale}` }}>
-                  {["🏠", "🔍", "🛒", "👤"].map((ic, i) => (<span key={i} style={{ fontSize: 15, opacity: i === 0 ? 1 : 0.3 }}>{ic}</span>))}
-                </div>
-              </PhoneMockup>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* FOOTER */}
-      <div style={{ background: C.charcoal, padding: "32px 24px", textAlign: "center", position: "relative", overflow: "hidden" }}>
-        <GrainOverlay /><NajdiSkyline color={C.tanPale} height={28} opacity={0.06} />
-        <div style={{ position: "relative", zIndex: 1 }}><LogoCompact size={48} dark /></div>
-        <div style={{ color: `${C.tanPale}44`, fontSize: 11, marginTop: 8, fontFamily: "'Noto Kufi Arabic', serif", position: "relative", zIndex: 1, direction: "rtl" }}>دليل الهوية البصرية — نسخة الدرعية — ٢٠٢٦</div>
-      </div>
+<!-- OVERVIEW -->
+<section id="cover" class="active">
+  <h2>هوية بصرية مستوحاة من الدرعية</h2>
+  <p class="section-desc">حروف عربية واضحة بخط كوفي مع إطار معماري — مستوحاة من عمارة الدرعية النجدية</p>
+  <div class="card lattice-brown">
+    <p style="position:relative;z-index:1;font-size:14px;line-height:2;font-family:'Noto Kufi Arabic',sans-serif;direction:rtl;text-align:right;margin-bottom:20px">شعار <strong style="color:var(--brown)">سنع</strong> يستخدم خط <strong style="color:var(--gold-muted)">نوتو كوفي</strong> العريض — واضح ومقروء بكل الأحجام. يُحاط بأيقونات تراثية وخطوط ذهبية تمثل الحرفية والضيافة.</p>
+    <div class="pillars" style="position:relative;z-index:1">
+      <div class="pillar"><h4>س — أسنان الأبراج</h4><p>ثلاثة أعمدة صاعدة على اليمين كأبراج الدرعية</p></div>
+      <div class="pillar"><h4>ن — فناء البيت</h4><p>جدارين مع قاعدة ونقطة ذهبية في الأعلى</p></div>
+      <div class="pillar"><h4>ع — البوابة النجدية</h4><p>شكل بوابة بعارضتين أفقيتين ومنزل سفلي</p></div>
+      <div class="pillar"><h4>أيقونات رمزية</h4><p>برج · قدر · طبق · إبل — تحيط بالشعار</p></div>
     </div>
-  );
+  </div>
+  <!-- Logos -->
+  <div style="text-align:center;margin-bottom:12px"><span style="font-size:13px;color:var(--gold-muted);font-weight:700;font-family:'Noto Kufi Arabic',serif">أشكال الشعار</span></div>
+  <div style="display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-bottom:28px">
+    <div class="logo-box dark"><div class="icons-row"><svg viewBox="0 0 24 24"><rect x="8" y="6" width="8" height="18" fill="#D4BE9C"/><rect x="6" y="14" width="12" height="2" fill="#D4BE9C"/><rect x="10" y="2" width="4" height="5" fill="#D4BE9C"/></svg><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2" fill="#D4BE9C"/><rect x="4" y="8" width="16" height="3" fill="#D4BE9C"/><rect x="10" y="4" width="4" height="5" fill="#D4BE9C"/></svg><svg viewBox="0 0 24 24"><ellipse cx="12" cy="18" rx="10" ry="4" fill="#D4BE9C"/><path d="M4,16 Q12,4 20,16" fill="none" stroke="#D4BE9C" stroke-width="2"/></svg><svg viewBox="0 0 24 24"><path d="M4,20 L4,12 L6,12 L6,8 L8,6 L10,6 L10,8 L14,8 L14,6 L16,4 L17,6 L18,8 L18,12 L20,12 L20,20" fill="none" stroke="#D4BE9C" stroke-width="1.5" stroke-linejoin="round"/></svg></div><div class="brand" style="font-size:72px">سنع</div><div class="accent-bar"><div style="width:19px;height:3px;background:#B8963E;border-radius:2px;opacity:.5"></div><div style="width:60px;height:4px;background:#B8963E;border-radius:2px"></div><div style="width:19px;height:3px;background:#B8963E;border-radius:2px;opacity:.5"></div></div><div class="sub" style="display:flex;align-items:center;gap:10px"><div style="width:18px;height:1px;background:#B8963E;opacity:.4"></div>SENEE<div style="width:18px;height:1px;background:#B8963E;opacity:.4"></div></div></div>
+    <div class="logo-box light"><div class="icons-row"><svg viewBox="0 0 24 24"><rect x="8" y="6" width="8" height="18" fill="#4A3628"/><rect x="6" y="14" width="12" height="2" fill="#4A3628"/><rect x="10" y="2" width="4" height="5" fill="#4A3628"/></svg><svg viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2" fill="#4A3628"/><rect x="4" y="8" width="16" height="3" fill="#4A3628"/><rect x="10" y="4" width="4" height="5" fill="#4A3628"/></svg><svg viewBox="0 0 24 24"><ellipse cx="12" cy="18" rx="10" ry="4" fill="#4A3628"/><path d="M4,16 Q12,4 20,16" fill="none" stroke="#4A3628" stroke-width="2"/></svg><svg viewBox="0 0 24 24"><path d="M4,20 L4,12 L6,12 L6,8 L8,6 L10,6 L10,8 L14,8 L14,6 L16,4 L17,6 L18,8 L18,12 L20,12 L20,20" fill="none" stroke="#4A3628" stroke-width="1.5" stroke-linejoin="round"/></svg></div><div class="brand" style="font-size:72px;color:#4A3628">سنع</div><div class="accent-bar"><div style="width:19px;height:3px;background:#A68A50;border-radius:2px;opacity:.5"></div><div style="width:60px;height:4px;background:#A68A50;border-radius:2px"></div><div style="width:19px;height:3px;background:#A68A50;border-radius:2px;opacity:.5"></div></div><div class="sub" style="display:flex;align-items:center;gap:10px;color:#A68A50"><div style="width:18px;height:1px;background:#A68A50;opacity:.4"></div>SENEE<div style="width:18px;height:1px;background:#A68A50;opacity:.4"></div></div></div>
+  </div>
+  <!-- App icons -->
+  <div style="text-align:center;margin-bottom:12px"><span style="font-size:13px;color:var(--gold-muted);font-weight:700;font-family:'Noto Kufi Arabic',serif">أحجام أيقونة التطبيق</span></div>
+  <div style="display:flex;gap:16px;justify-content:center;align-items:end;flex-wrap:wrap">
+    <div class="logo-compact dark" style="width:80px;height:80px"><span class="brand" style="font-size:27px">سنع</span><div style="width:32px;height:3px;background:#B8963E;border-radius:2px;opacity:.6;position:relative;z-index:1"></div><span style="font-size:7px;font-weight:700;letter-spacing:2px;color:#B8963E;opacity:.7;font-family:'Cormorant Garamond',serif;position:relative;z-index:1">SENEE</span></div>
+    <div class="logo-compact light" style="width:80px;height:80px"><span class="brand" style="font-size:27px;color:#F8F3EB">سنع</span><div style="width:32px;height:3px;background:#4A3628;border-radius:2px;opacity:.6;position:relative;z-index:1"></div><span style="font-size:7px;font-weight:700;letter-spacing:2px;color:#4A3628;opacity:.7;font-family:'Cormorant Garamond',serif;position:relative;z-index:1">SENEE</span></div>
+    <div class="logo-compact dark" style="width:56px;height:56px"><span class="brand" style="font-size:19px">سنع</span><div style="width:22px;height:2px;background:#B8963E;border-radius:2px;opacity:.6;position:relative;z-index:1"></div></div>
+    <div class="logo-compact light" style="width:44px;height:44px"><span class="brand" style="font-size:15px;color:#F8F3EB">سنع</span></div>
+    <div class="logo-compact dark" style="width:36px;height:36px"><span class="brand" style="font-size:12px">سنع</span></div>
+  </div>
+</section>
+
+<!-- PALETTE -->
+<section id="palette">
+  <h2>الألوان</h2>
+  <p class="section-desc">مستوحاة من لون الدرعية — مزيج من ١٥ مادة أصيلة من أرض المملكة</p>
+  <div class="swatch-label">الأساسي — لون الدرعية</div>
+  <div class="swatches"><div class="swatch"><div class="swatch-circle" style="background:#C4A882;box-shadow:0 6px 20px #C4A88244"></div><div class="swatch-name">لون الدرعية</div><div class="swatch-hex">#C4A882</div></div><div class="swatch"><div class="swatch-circle" style="background:#D4BE9C;box-shadow:0 6px 20px #D4BE9C44"></div><div class="swatch-name">فاتح</div><div class="swatch-hex">#D4BE9C</div></div><div class="swatch"><div class="swatch-circle" style="background:#E8D8C0;box-shadow:0 6px 20px #E8D8C044"></div><div class="swatch-name">باهت</div><div class="swatch-hex">#E8D8C0</div></div></div>
+  <div class="swatch-label">الأرض</div>
+  <div class="swatches"><div class="swatch"><div class="swatch-circle" style="background:#6B4F3A;box-shadow:0 6px 20px #6B4F3A44"></div><div class="swatch-name">بني طيني</div><div class="swatch-hex">#6B4F3A</div></div><div class="swatch"><div class="swatch-circle" style="background:#4A3628;box-shadow:0 6px 20px #4A362844"></div><div class="swatch-name">أرض داكنة</div><div class="swatch-hex">#4A3628</div></div><div class="swatch"><div class="swatch-circle" style="background:#8C6E54;box-shadow:0 6px 20px #8C6E5444"></div><div class="swatch-name">صحراوي</div><div class="swatch-hex">#8C6E54</div></div></div>
+  <div class="swatch-label">التمييز</div>
+  <div class="swatches"><div class="swatch"><div class="swatch-circle" style="background:#B8963E;box-shadow:0 6px 20px #B8963E44"></div><div class="swatch-name">ذهب تراثي</div><div class="swatch-hex">#B8963E</div></div><div class="swatch"><div class="swatch-circle" style="background:#2E2318;box-shadow:0 6px 20px #2E231844"></div><div class="swatch-name">ليل نجدي</div><div class="swatch-hex">#2E2318</div></div><div class="swatch"><div class="swatch-circle" style="background:#F8F3EB;box-shadow:0 6px 20px #F8F3EB44;border:1px solid #E8D8C0"></div><div class="swatch-name">رق</div><div class="swatch-hex">#F8F3EB</div></div></div>
+  <div style="height:40px;border-radius:12px;background:linear-gradient(90deg,#3B2A1E,#6B4F3A,#8C6E54,#C4A882,#D4BE9C,#F2E8D5,#F8F3EB);box-shadow:0 4px 20px #C4A88233"></div>
+  <!-- Featured -->
+  <div style="margin-top:28px;background:#C4A882;border-radius:16px;padding:24px;display:flex;align-items:center;gap:24px;flex-wrap:wrap;direction:rtl">
+    <div style="width:90px;height:90px;border-radius:14px;background:#C4A882;border:3px solid rgba(255,255,255,.3);flex-shrink:0"></div>
+    <div><div style="font-size:20px;font-weight:800;color:#3B2A1E;font-family:'Noto Kufi Arabic',serif">لون الدرعية</div><div style="font-size:13px;color:#4A3628;margin-top:4px;font-family:'Noto Kufi Arabic',sans-serif">اللون الرئيسي — مستوحى من إبداع بانتون لشركة الدرعية</div><div style="font-size:10px;color:#6B4F3A;margin-top:6px;font-family:monospace;letter-spacing:1px">#C4A882 · RGB(196, 168, 130)</div></div>
+  </div>
+</section>
+
+<!-- TYPOGRAPHY -->
+<section id="type">
+  <h2>الخطوط</h2>
+  <div class="type-card"><div class="type-label">خط الشعار — نوتو كوفي عربي</div><div style="display:flex;justify-content:center;margin-bottom:12px"><div class="logo-box dark" style="padding:18px 24px"><div class="brand" style="font-size:60px">سنع</div><div class="accent-bar"><div style="width:16px;height:3px;background:#B8963E;border-radius:2px;opacity:.5"></div><div style="width:50px;height:4px;background:#B8963E;border-radius:2px"></div><div style="width:16px;height:3px;background:#B8963E;border-radius:2px;opacity:.5"></div></div></div></div><p style="font-size:11px;color:var(--warm-gray);text-align:center;font-family:'Noto Kufi Arabic',sans-serif;direction:rtl">خط كوفي عريض وزن ٨٠٠ — أقصى وضوح في كل الأحجام</p></div>
+  <div class="type-card"><div class="type-label">عناوين</div><div style="font-size:28px;font-family:'Noto Kufi Arabic',serif;font-weight:700;color:var(--brown-dark);direction:rtl;text-align:right">طبخ بيتي · من أرض الدرعية</div></div>
+  <div class="type-card"><div class="type-label">نص عادي</div><div style="font-size:20px;font-family:'Noto Kufi Arabic',serif;font-weight:400;color:var(--brown-dark);direction:rtl;text-align:right">اكتشف مطابخ منزلية موثوقة بالقرب منك</div></div>
+  <div class="type-card"><div class="type-label">أرقام وأسعار</div><div style="font-size:22px;font-family:'Noto Kufi Arabic',serif;font-weight:600;color:var(--brown-dark);direction:rtl;text-align:right">٤٥ ر.س · ⭐ ٤.٨ · طلب رقم ١٠٢٤</div></div>
+  <!-- Hero specimen -->
+  <div class="grain lattice" style="margin-top:20px;background:linear-gradient(140deg,#3B2A1E,#6B4F3A);border-radius:16px;padding:36px;text-align:center;overflow:hidden">
+    <div style="font-family:'Noto Kufi Arabic',serif;font-size:34px;font-weight:800;color:#D4BE9C;position:relative;z-index:1;direction:rtl">سنع — من أرض الدرعية</div>
+    <svg viewBox="0 0 400 32" style="width:80%;height:32px;display:block;margin:8px auto;opacity:.2;position:relative;z-index:1" preserveAspectRatio="none"><path d="M0,32 L0,22 L20,22 L20,14 L24,10 L28,14 L32,14 L32,22 L70,22 L70,16 L74,12 L78,16 L82,16 L82,22 L120,22 L120,14 L124,10 L128,14 L132,14 L132,22 L180,22 L180,16 L184,12 L188,16 L192,16 L192,22 L240,22 L240,14 L244,10 L248,14 L252,14 L252,22 L300,22 L300,16 L304,12 L308,16 L312,16 L312,22 L400,22 L400,32Z" fill="#E8D8C0"/></svg>
+    <div style="font-family:'Noto Kufi Arabic',serif;font-size:13px;color:#B8963E;position:relative;z-index:1;direction:rtl">صُنع بإتقان من البيت</div>
+  </div>
+</section>
+
+<!-- ELEMENTS -->
+<section id="elements">
+  <h2>العناصر الزخرفية</h2>
+  <div class="card"><div style="font-size:13px;color:var(--gold-muted);font-weight:700;margin-bottom:12px;font-family:'Noto Kufi Arabic',serif;direction:rtl">٠١ — أيقونات رمزية</div>
+    <div style="background:#3B2A1E;border-radius:14px;padding:24px;display:flex;gap:32px;justify-content:center;flex-wrap:wrap">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px"><svg width="36" height="36" viewBox="0 0 24 24"><rect x="8" y="6" width="8" height="18" fill="#D4BE9C"/><rect x="6" y="14" width="12" height="2" fill="#D4BE9C"/><rect x="10" y="2" width="4" height="5" fill="#D4BE9C"/></svg><span style="font-size:11px;color:#A68A50;font-family:'Noto Kufi Arabic',serif">برج</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px"><svg width="36" height="36" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2" fill="#D4BE9C"/><rect x="4" y="8" width="16" height="3" fill="#D4BE9C"/><rect x="10" y="4" width="4" height="5" fill="#D4BE9C"/></svg><span style="font-size:11px;color:#A68A50;font-family:'Noto Kufi Arabic',serif">قدر</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px"><svg width="36" height="36" viewBox="0 0 24 24"><ellipse cx="12" cy="18" rx="10" ry="4" fill="#D4BE9C"/><path d="M4,16 Q12,4 20,16" fill="none" stroke="#D4BE9C" stroke-width="2"/></svg><span style="font-size:11px;color:#A68A50;font-family:'Noto Kufi Arabic',serif">طبق</span></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px"><svg width="36" height="36" viewBox="0 0 24 24"><path d="M4,20 L4,12 L6,12 L6,8 L8,6 L10,6 L10,8 L14,8 L14,6 L16,4 L17,6 L18,8 L18,12 L20,12 L20,20" fill="none" stroke="#D4BE9C" stroke-width="1.5" stroke-linejoin="round"/></svg><span style="font-size:11px;color:#A68A50;font-family:'Noto Kufi Arabic',serif">إبل</span></div>
+    </div>
+  </div>
+  <div class="card"><div style="font-size:13px;color:var(--gold-muted);font-weight:700;margin-bottom:8px;font-family:'Noto Kufi Arabic',serif;direction:rtl">٠٢ — أفق نجدي</div>
+    <div style="background:#4A3628;border-radius:12px;padding:24px 16px 0;overflow:hidden"><svg viewBox="0 0 400 50" style="width:100%;height:50px;display:block;opacity:.6" preserveAspectRatio="none"><path d="M0,50 L0,36 L15,36 L15,24 L20,24 L20,17 L25,17 L25,24 L30,24 L30,36 L50,36 L50,28 L55,28 L55,16 L58,12 L61,16 L65,16 L65,28 L70,28 L70,36 L90,36 L90,22 L95,22 L95,14 L100,10 L105,14 L110,14 L110,22 L115,22 L115,36 L140,36 L140,30 L145,30 L145,20 L150,16 L155,20 L160,20 L160,30 L165,30 L165,36 L200,36 L200,26 L205,26 L205,17 L208,13 L211,17 L215,17 L215,26 L220,26 L220,36 L260,36 L260,28 L265,28 L265,16 L268,11 L271,16 L275,16 L275,28 L280,28 L280,36 L400,36 L400,50Z" fill="#D4BE9C"/></svg></div>
+  </div>
+  <div class="card"><div style="font-size:13px;color:var(--gold-muted);font-weight:700;margin-bottom:8px;font-family:'Noto Kufi Arabic',serif;direction:rtl">٠٣ — حدود متعرجة</div>
+    <div style="background:#4A3628;border-radius:12px;padding:16px 12px;display:flex;flex-direction:column;gap:10px">
+      <div class="zigzag" style="height:12px"><span class="t" style="border-top:12px solid #D4BE9C;border-left:8px solid transparent;border-right:8px solid transparent"></span><span class="t" style="border-top:12px solid #D4BE9C;border-left:8px solid transparent;border-right:8px solid transparent"></span><span class="t" style="border-top:12px solid #D4BE9C;border-left:8px solid transparent;border-right:8px solid transparent"></span><span class="t" style="border-top:12px solid #D4BE9C;border-left:8px solid transparent;border-right:8px solid transparent"></span><span class="t" style="border-top:12px solid #D4BE9C;border-left:8px solid transparent;border-right:8px solid transparent"></span><span class="t" style="border-top:12px solid #D4BE9C;border-left:8px solid transparent;border-right:8px solid transparent"></span><span class="t" style="border-top:12px solid #D4BE9C;border-left:8px solid transparent;border-right:8px solid transparent"></span><span class="t" style="border-top:12px solid #D4BE9C;border-left:8px solid transparent;border-right:8px solid transparent"></span><span class="t" style="border-top:12px solid #D4BE9C;border-left:8px solid transparent;border-right:8px solid transparent"></span><span class="t" style="border-top:12px solid #D4BE9C;border-left:8px solid transparent;border-right:8px solid transparent"></span><span class="t" style="border-top:12px solid #D4BE9C;border-left:8px solid transparent;border-right:8px solid transparent"></span><span class="t" style="border-top:12px solid #D4BE9C;border-left:8px solid transparent;border-right:8px solid transparent"></span><span class="t" style="border-top:12px solid #D4BE9C;border-left:8px solid transparent;border-right:8px solid transparent"></span><span class="t" style="border-top:12px solid #D4BE9C;border-left:8px solid transparent;border-right:8px solid transparent"></span><span class="t" style="border-top:12px solid #D4BE9C;border-left:8px solid transparent;border-right:8px solid transparent"></span><span class="t" style="border-top:12px solid #D4BE9C;border-left:8px solid transparent;border-right:8px solid transparent"></span></div>
+      <div class="zigzag" style="height:10px"><span class="t" style="border-top:10px solid #B8963E;border-left:6.5px solid transparent;border-right:6.5px solid transparent"></span><span class="t" style="border-top:10px solid #B8963E;border-left:6.5px solid transparent;border-right:6.5px solid transparent"></span><span class="t" style="border-top:10px solid #B8963E;border-left:6.5px solid transparent;border-right:6.5px solid transparent"></span><span class="t" style="border-top:10px solid #B8963E;border-left:6.5px solid transparent;border-right:6.5px solid transparent"></span><span class="t" style="border-top:10px solid #B8963E;border-left:6.5px solid transparent;border-right:6.5px solid transparent"></span><span class="t" style="border-top:10px solid #B8963E;border-left:6.5px solid transparent;border-right:6.5px solid transparent"></span><span class="t" style="border-top:10px solid #B8963E;border-left:6.5px solid transparent;border-right:6.5px solid transparent"></span><span class="t" style="border-top:10px solid #B8963E;border-left:6.5px solid transparent;border-right:6.5px solid transparent"></span><span class="t" style="border-top:10px solid #B8963E;border-left:6.5px solid transparent;border-right:6.5px solid transparent"></span><span class="t" style="border-top:10px solid #B8963E;border-left:6.5px solid transparent;border-right:6.5px solid transparent"></span><span class="t" style="border-top:10px solid #B8963E;border-left:6.5px solid transparent;border-right:6.5px solid transparent"></span><span class="t" style="border-top:10px solid #B8963E;border-left:6.5px solid transparent;border-right:6.5px solid transparent"></span><span class="t" style="border-top:10px solid #B8963E;border-left:6.5px solid transparent;border-right:6.5px solid transparent"></span><span class="t" style="border-top:10px solid #B8963E;border-left:6.5px solid transparent;border-right:6.5px solid transparent"></span><span class="t" style="border-top:10px solid #B8963E;border-left:6.5px solid transparent;border-right:6.5px solid transparent"></span><span class="t" style="border-top:10px solid #B8963E;border-left:6.5px solid transparent;border-right:6.5px solid transparent"></span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SCREENS -->
+<section id="screens">
+  <h2>تصاميم التطبيق</h2>
+  <div class="phones">
+    <!-- Splash -->
+    <div class="phone-wrap"><span>شاشة البداية</span><div class="phone"><div class="phone-notch"><div></div></div>
+      <div class="grain lattice" style="background:#3B2A1E;height:460px;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden">
+        <div class="logo-compact dark" style="width:72px;height:72px;position:relative;z-index:1"><span class="brand" style="font-size:24px">سنع</span><div style="width:28px;height:3px;background:#B8963E;border-radius:2px;opacity:.6;position:relative;z-index:1"></div><span style="font-size:6px;font-weight:700;letter-spacing:2px;color:#B8963E;opacity:.7;font-family:'Cormorant Garamond',serif;position:relative;z-index:1">SENEE</span></div>
+        <svg viewBox="0 0 400 28" style="width:80%;height:28px;display:block;opacity:.12;margin-top:16px;position:relative;z-index:1" preserveAspectRatio="none"><path d="M0,28 L0,20 L20,20 L20,10 L24,7 L28,10 L32,10 L32,20 L70,20 L70,12 L74,8 L78,12 L82,12 L82,20 L120,20 L120,10 L124,6 L128,10 L132,10 L132,20 L180,20 L180,12 L184,8 L188,12 L192,12 L192,20 L240,20 L240,10 L244,7 L248,10 L252,10 L252,20 L300,20 L300,12 L304,8 L308,12 L312,12 L312,20 L400,20 L400,28Z" fill="#E8D8C0"/></svg>
+      </div>
+    <div class="phone-bar"><div></div></div></div></div>
+
+    <!-- Home -->
+    <div class="phone-wrap"><span>الرئيسية</span><div class="phone"><div class="phone-notch"><div></div></div>
+      <div style="direction:rtl">
+        <div class="lattice" style="background:linear-gradient(160deg,#3B2A1E,#6B4F3A);padding:14px 16px 0;overflow:hidden">
+          <div style="position:relative;z-index:1">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div><div style="color:#E8D8C0;font-size:9px;opacity:.6;font-family:'Noto Kufi Arabic',serif">أهلاً بك في</div>
+                <div class="logo-compact dark" style="width:28px;height:28px"><span class="brand" style="font-size:10px">سنع</span></div>
+              </div>
+              <div style="width:30px;height:30px;border-radius:50%;background:rgba(196,168,130,.12);display:flex;align-items:center;justify-content:center;font-size:13px">🔔</div>
+            </div>
+            <div style="margin:12px 0 0;background:rgba(196,168,130,.12);border-radius:10px;padding:8px 12px;color:rgba(232,216,192,.4);font-size:9px;font-family:'Noto Kufi Arabic',sans-serif">🔍 ابحث عن طبخات...</div>
+          </div>
+          <svg viewBox="0 0 400 20" style="width:100%;height:20px;display:block;opacity:.12;margin-top:10px;position:relative;z-index:1" preserveAspectRatio="none"><path d="M0,20 L0,14 L20,14 L20,8 L24,5 L28,8 L32,8 L32,14 L80,14 L80,9 L84,6 L88,9 L92,9 L92,14 L140,14 L140,8 L144,5 L148,8 L152,8 L152,14 L220,14 L220,9 L224,6 L228,9 L232,9 L232,14 L300,14 L300,8 L304,5 L308,8 L312,8 L312,14 L400,14 L400,20Z" fill="#F8F3EB"/></svg>
+        </div>
+        <div class="zigzag" style="height:8px"><span class="t" style="border-top:8px solid var(--tan);border-left:5px solid transparent;border-right:5px solid transparent"></span><span class="t" style="border-top:8px solid var(--tan);border-left:5px solid transparent;border-right:5px solid transparent"></span><span class="t" style="border-top:8px solid var(--tan);border-left:5px solid transparent;border-right:5px solid transparent"></span><span class="t" style="border-top:8px solid var(--tan);border-left:5px solid transparent;border-right:5px solid transparent"></span><span class="t" style="border-top:8px solid var(--tan);border-left:5px solid transparent;border-right:5px solid transparent"></span><span class="t" style="border-top:8px solid var(--tan);border-left:5px solid transparent;border-right:5px solid transparent"></span><span class="t" style="border-top:8px solid var(--tan);border-left:5px solid transparent;border-right:5px solid transparent"></span><span class="t" style="border-top:8px solid var(--tan);border-left:5px solid transparent;border-right:5px solid transparent"></span><span class="t" style="border-top:8px solid var(--tan);border-left:5px solid transparent;border-right:5px solid transparent"></span><span class="t" style="border-top:8px solid var(--tan);border-left:5px solid transparent;border-right:5px solid transparent"></span><span class="t" style="border-top:8px solid var(--tan);border-left:5px solid transparent;border-right:5px solid transparent"></span><span class="t" style="border-top:8px solid var(--tan);border-left:5px solid transparent;border-right:5px solid transparent"></span><span class="t" style="border-top:8px solid var(--tan);border-left:5px solid transparent;border-right:5px solid transparent"></span><span class="t" style="border-top:8px solid var(--tan);border-left:5px solid transparent;border-right:5px solid transparent"></span><span class="t" style="border-top:8px solid var(--tan);border-left:5px solid transparent;border-right:5px solid transparent"></span><span class="t" style="border-top:8px solid var(--tan);border-left:5px solid transparent;border-right:5px solid transparent"></span></div>
+        <div style="padding:10px 14px">
+          <div style="font-size:10px;font-weight:700;font-family:'Noto Kufi Arabic',serif;color:var(--brown-dark);margin-bottom:8px">التصنيفات</div>
+          <div style="display:flex;gap:8px;margin-bottom:12px">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:3px"><div style="width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;background:var(--tan)">🍚</div><span style="font-size:7px;font-weight:600;font-family:'Noto Kufi Arabic',sans-serif;color:var(--brown)">وجبات</span></div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:3px"><div style="width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;background:var(--sand)">🧁</div><span style="font-size:7px;font-weight:600;font-family:'Noto Kufi Arabic',sans-serif;color:var(--warm-gray)">حلويات</span></div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:3px"><div style="width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;background:var(--sand)">☕</div><span style="font-size:7px;font-weight:600;font-family:'Noto Kufi Arabic',sans-serif;color:var(--warm-gray)">فطور</span></div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:3px"><div style="width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;background:var(--sand)">🥗</div><span style="font-size:7px;font-weight:600;font-family:'Noto Kufi Arabic',sans-serif;color:var(--warm-gray)">صحي</span></div>
+          </div>
+          <div style="font-size:10px;font-weight:700;font-family:'Noto Kufi Arabic',serif;color:var(--brown-dark);margin-bottom:8px">مطابخ مميزة</div>
+          <div style="background:var(--sand);border-radius:10px;padding:10px;margin-bottom:6px;display:flex;gap:8px;align-items:center"><div style="width:38px;height:38px;border-radius:10px;background:var(--brown);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">🍽️</div><div><div style="font-size:10px;font-weight:700;font-family:'Noto Kufi Arabic',serif;color:var(--brown-dark)">مطبخ أم نورة</div><div style="display:flex;gap:4px;align-items:center;margin-top:2px"><span style="font-size:7px;background:var(--brown);color:var(--cream);padding:1px 5px;border-radius:4px">نجدي</span><span style="font-size:8px;color:var(--gold-muted)">⭐ ٤.٨</span></div></div></div>
+          <div style="background:var(--tan-pale);border-radius:10px;padding:10px;margin-bottom:6px;display:flex;gap:8px;align-items:center"><div style="width:38px;height:38px;border-radius:10px;background:var(--brown);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">🍽️</div><div><div style="font-size:10px;font-weight:700;font-family:'Noto Kufi Arabic',serif;color:var(--brown-dark)">بيت الكبسة</div><div style="display:flex;gap:4px;align-items:center;margin-top:2px"><span style="font-size:7px;background:var(--brown);color:var(--cream);padding:1px 5px;border-radius:4px">حجازي</span><span style="font-size:8px;color:var(--gold-muted)">⭐ ٤.٩</span></div></div></div>
+        </div>
+        <div style="display:flex;justify-content:space-around;padding:8px 0 6px;border-top:1px solid var(--tan-pale)"><span style="font-size:15px">🏠</span><span style="font-size:15px;opacity:.3">🔍</span><span style="font-size:15px;opacity:.3">🛒</span><span style="font-size:15px;opacity:.3">👤</span></div>
+      </div>
+    <div class="phone-bar"><div></div></div></div></div>
+  </div>
+</section>
+
+<!-- LAYOUTS -->
+<section id="layouts">
+  <h2>أفكار تصميم التخطيط</h2>
+  <p class="section-desc">ثلاثة تخطيطات مستوحاة من أفضل التطبيقات العالمية — اختر المناسب لسنع</p>
+
+  <!-- Layout summary cards -->
+  <div class="layout-cards">
+    <div class="layout-card"><div class="bench">Talabat / HungerStation</div><h3>تخطيط ١: شبكة سريعة</h3><p>تصميم يركز على السرعة — تصنيفات سريعة، شبكة مطابخ، إعادة طلب فوري</p><div class="best">💡 الأفضل للمستخدم الذي يعرف ماذا يريد</div></div>
+    <div class="layout-card"><div class="bench">The Chefz / Deliveroo</div><h3>تخطيط ٢: قصص مميزة</h3><p>تصميم تحريري بقصص المطابخ ومجموعات مختارة — يبني الثقة والعاطفة</p><div class="best">💡 الأفضل لبناء علامة تجارية قوية</div></div>
+    <div class="layout-card"><div class="bench">Airbnb / Etsy</div><h3>تخطيط ٣: سوق موثوق</h3><p>تصميم يركز على الطباخ كشخص — ملف شخصي، تحقق، جدولة، فلترة متقدمة</p><div class="best">💡 الأفضل لسوق الأسر المنتجة</div></div>
+  </div>
+
+  <!-- Phone mockups -->
+  <div class="layout-phones">
+
+    <!-- LAYOUT 1 -->
+    <div class="lphone-wrap"><strong>تخطيط ١</strong><em>شبكة سريعة — مثل طلبات</em>
+      <div class="lphone"><div class="lphone-notch"><div></div></div><div class="lphone-content" style="direction:rtl">
+        <!-- Header -->
+        <div style="background:var(--brown-deep);padding:14px 16px 16px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div><div style="color:var(--tan-pale);font-size:8px;opacity:.6">التوصيل إلى</div><div style="color:var(--tan-light);font-size:11px;font-weight:700;font-family:'Noto Kufi Arabic',serif">📍 الرياض، حي النرجس ▾</div></div><div style="display:flex;gap:6px"><div style="width:28px;height:28px;border-radius:50%;background:rgba(196,168,130,.12);display:flex;align-items:center;justify-content:center;font-size:12px">🔔</div><div style="width:28px;height:28px;border-radius:50%;background:rgba(196,168,130,.12);display:flex;align-items:center;justify-content:center;font-size:12px">👤</div></div></div>
+          <div style="background:rgba(196,168,130,.1);border-radius:10px;padding:8px 12px;display:flex;align-items:center;gap:6px"><span style="font-size:12px;opacity:.4">🔍</span><span style="color:rgba(232,216,192,.35);font-size:9px;font-family:'Noto Kufi Arabic',sans-serif">ابحث عن مطبخ أو طبق...</span></div>
+        </div>
+        <!-- Categories -->
+        <div style="padding:10px 14px;display:flex;gap:6px;overflow-x:auto;background:var(--cream)">
+          <span style="padding:5px 10px;border-radius:16px;font-size:9px;font-weight:600;font-family:'Noto Kufi Arabic',sans-serif;background:var(--brown-dark);color:var(--tan-light);white-space:nowrap">🍚 الكل</span>
+          <span style="padding:5px 10px;border-radius:16px;font-size:9px;font-weight:600;font-family:'Noto Kufi Arabic',sans-serif;background:var(--sand);color:var(--brown-dark);white-space:nowrap">🍖 كبسات</span>
+          <span style="padding:5px 10px;border-radius:16px;font-size:9px;font-weight:600;font-family:'Noto Kufi Arabic',sans-serif;background:var(--sand);color:var(--brown-dark);white-space:nowrap">🧁 حلويات</span>
+          <span style="padding:5px 10px;border-radius:16px;font-size:9px;font-weight:600;font-family:'Noto Kufi Arabic',sans-serif;background:var(--sand);color:var(--brown-dark);white-space:nowrap">☕ فطور</span>
+        </div>
+        <!-- Promo -->
+        <div style="margin:0 12px 10px;background:linear-gradient(135deg,var(--tan),var(--gold));border-radius:12px;padding:14px 16px;position:relative;overflow:hidden"><div style="font-size:12px;font-weight:800;color:var(--brown-deep);font-family:'Noto Kufi Arabic',serif">خصم ٢٠٪ على أول طلب 🎉</div><div style="font-size:8px;color:var(--brown);margin-top:2px">استخدم كود: سنع٢٠</div></div>
+        <!-- Grid -->
+        <div style="padding:0 12px 10px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><span style="font-size:11px;font-weight:700;font-family:'Noto Kufi Arabic',serif">مطابخ رائجة 🔥</span><span style="font-size:8px;color:var(--gold)">عرض الكل ←</span></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <div style="background:var(--sand);border-radius:10px;overflow:hidden"><div style="height:50px;background:linear-gradient(135deg,var(--tan-pale),var(--tan));display:flex;align-items:center;justify-content:center;font-size:20px">🍚</div><div style="padding:8px"><div style="font-size:9px;font-weight:700;font-family:'Noto Kufi Arabic',serif">مطبخ أم نورة</div><div style="display:flex;gap:3px;align-items:center;margin-top:2px"><span style="font-size:6px;background:var(--brown);color:var(--cream);padding:1px 4px;border-radius:3px">نجدي</span><span style="font-size:6px;color:var(--gold-muted)">⭐ ٤.٨</span><span style="font-size:6px;color:var(--warm-gray)">⏱ ٣٠ د</span></div><div style="font-size:7px;color:var(--earth);margin-top:3px">من ٢٥ ر.س</div></div></div>
+            <div style="background:var(--sand);border-radius:10px;overflow:hidden"><div style="height:50px;background:linear-gradient(135deg,var(--tan-pale),var(--tan));display:flex;align-items:center;justify-content:center;font-size:20px">🧁</div><div style="padding:8px"><div style="font-size:9px;font-weight:700;font-family:'Noto Kufi Arabic',serif">بيت الكبسة</div><div style="display:flex;gap:3px;align-items:center;margin-top:2px"><span style="font-size:6px;background:var(--brown);color:var(--cream);padding:1px 4px;border-radius:3px">حجازي</span><span style="font-size:6px;color:var(--gold-muted)">⭐ ٤.٩</span><span style="font-size:6px;color:var(--warm-gray)">⏱ ٤٥ د</span></div><div style="font-size:7px;color:var(--earth);margin-top:3px">من ٣٥ ر.س</div></div></div>
+            <div style="background:var(--sand);border-radius:10px;overflow:hidden"><div style="height:50px;background:linear-gradient(135deg,var(--tan-pale),var(--tan));display:flex;align-items:center;justify-content:center;font-size:20px">🍚</div><div style="padding:8px"><div style="font-size:9px;font-weight:700;font-family:'Noto Kufi Arabic',serif">سفرة ماما</div><div style="display:flex;gap:3px;align-items:center;margin-top:2px"><span style="font-size:6px;background:var(--brown);color:var(--cream);padding:1px 4px;border-radius:3px">جنوبي</span><span style="font-size:6px;color:var(--gold-muted)">⭐ ٤.٧</span></div><div style="font-size:7px;color:var(--earth);margin-top:3px">من ٢٠ ر.س</div></div></div>
+            <div style="background:var(--sand);border-radius:10px;overflow:hidden"><div style="height:50px;background:linear-gradient(135deg,var(--tan-pale),var(--tan));display:flex;align-items:center;justify-content:center;font-size:20px">🧁</div><div style="padding:8px"><div style="font-size:9px;font-weight:700;font-family:'Noto Kufi Arabic',serif">دار الحلا</div><div style="display:flex;gap:3px;align-items:center;margin-top:2px"><span style="font-size:6px;background:var(--brown);color:var(--cream);padding:1px 4px;border-radius:3px">حلويات</span><span style="font-size:6px;color:var(--gold-muted)">⭐ ٤.٩</span></div><div style="font-size:7px;color:var(--earth);margin-top:3px">من ١٥ ر.س</div></div></div>
+          </div>
+        </div>
+        <!-- Reorder -->
+        <div style="padding:0 12px 12px"><div style="font-size:11px;font-weight:700;font-family:'Noto Kufi Arabic',serif;margin-bottom:8px">أعد الطلب 🔄</div><div style="background:var(--sand);border-radius:10px;padding:10px;display:flex;gap:8px;align-items:center"><div style="width:38px;height:38px;border-radius:8px;background:var(--tan);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0">🍖</div><div style="flex:1"><div style="font-size:9px;font-weight:700;font-family:'Noto Kufi Arabic',serif">كبسة لحم — مطبخ أم نورة</div><div style="font-size:7px;color:var(--warm-gray)">آخر طلب: أمس</div></div><div style="background:var(--brown-dark);border-radius:6px;padding:5px 8px;color:var(--tan-light);font-size:8px;font-weight:700;font-family:'Noto Kufi Arabic',serif">أعد</div></div></div>
+        <div class="lphone-bnav"><span>🏠<small>الرئيسية</small></span><span>🔍<small>اكتشف</small></span><span>🛒<small>السلة</small></span><span>📋<small>طلباتي</small></span><span>👤<small>حسابي</small></span></div>
+      </div><div class="lphone-bar"><div></div></div></div>
+    </div>
+
+    <!-- LAYOUT 2 -->
+    <div class="lphone-wrap"><strong>تخطيط ٢</strong><em>قصص مميزة — مثل ذا شفز</em>
+      <div class="lphone"><div class="lphone-notch"><div></div></div><div class="lphone-content" style="direction:rtl">
+        <!-- Header -->
+        <div style="background:linear-gradient(180deg,var(--brown-deep),var(--brown));padding:14px 16px 0">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><div><div style="color:var(--gold);font-size:8px;font-weight:600">مساء الخير 👋</div><div style="color:var(--tan-light);font-size:14px;font-weight:800;font-family:'Noto Kufi Arabic',serif">ماذا تشتهي اليوم؟</div></div><div style="width:32px;height:32px;border-radius:50%;background:var(--tan);display:flex;align-items:center;justify-content:center;font-size:14px;border:2px solid var(--gold)">👤</div></div>
+          <div style="background:rgba(255,255,255,.06);border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:6px;margin-bottom:14px"><span style="font-size:12px;opacity:.3">🔍</span><span style="color:rgba(232,216,192,.3);font-size:9px;font-family:'Noto Kufi Arabic',sans-serif">ابحث عن أطباق، مطابخ...</span></div>
+        </div>
+        <!-- Story card -->
+        <div style="margin:0 12px 14px;border-radius:14px;overflow:hidden"><div style="height:110px;background:linear-gradient(135deg,var(--tan),var(--earth));display:flex;align-items:flex-end;padding:14px;position:relative"><div style="position:absolute;left:14px;top:14px;font-size:34px;opacity:.15">🍲</div><div><div style="font-size:7px;color:var(--cream);background:var(--brown-deep);padding:2px 7px;border-radius:5px;display:inline-block;margin-bottom:5px">⭐ قصة مطبخ</div><div style="font-size:13px;font-weight:800;color:var(--cream);font-family:'Noto Kufi Arabic',serif">أم نورة: ٣٠ سنة من الكبسة</div><div style="font-size:8px;color:var(--tan-pale);margin-top:2px">من مطبخها في النرجس إلى مائدتك</div></div></div></div>
+        <!-- Collections -->
+        <div style="padding:0 12px 14px"><div style="font-size:11px;font-weight:700;font-family:'Noto Kufi Arabic',serif;margin-bottom:8px">مجموعات مختارة ✨</div><div style="display:flex;gap:8px;overflow-x:auto"><div style="min-width:115px;border-radius:12px;overflow:hidden;background:#E8D5B8;flex-shrink:0"><div style="height:50px;display:flex;align-items:center;justify-content:center;font-size:24px">☕</div><div style="padding:6px 8px"><div style="font-size:9px;font-weight:700;font-family:'Noto Kufi Arabic',serif">فطور سعودي أصيل</div></div></div><div style="min-width:115px;border-radius:12px;overflow:hidden;background:#D5E8D0;flex-shrink:0"><div style="height:50px;display:flex;align-items:center;justify-content:center;font-size:24px">🥗</div><div style="padding:6px 8px"><div style="font-size:9px;font-weight:700;font-family:'Noto Kufi Arabic',serif">أطباق صحية</div></div></div><div style="min-width:115px;border-radius:12px;overflow:hidden;background:#E8D0D5;flex-shrink:0"><div style="height:50px;display:flex;align-items:center;justify-content:center;font-size:24px">🧁</div><div style="padding:6px 8px"><div style="font-size:9px;font-weight:700;font-family:'Noto Kufi Arabic',serif">حلويات بيتية</div></div></div></div></div>
+        <!-- Vendors -->
+        <div style="padding:0 12px 12px"><div style="font-size:11px;font-weight:700;font-family:'Noto Kufi Arabic',serif;margin-bottom:8px">مطابخ مميزة</div>
+          <div style="background:var(--sand);border-radius:14px;overflow:hidden;margin-bottom:8px"><div style="height:55px;background:linear-gradient(135deg,var(--tan-pale),rgba(140,110,84,.25));display:flex;align-items:center;justify-content:center;position:relative"><span style="font-size:24px;opacity:.25">🍽️</span><span style="position:absolute;top:6px;right:6px;font-size:6px;background:var(--brown-dark);color:var(--gold);padding:2px 6px;border-radius:5px;font-family:'Noto Kufi Arabic',sans-serif">الأعلى تقييماً</span></div><div style="padding:8px 12px"><div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:10px;font-weight:700;font-family:'Noto Kufi Arabic',serif">مطبخ أم نورة</div><div style="font-size:8px;color:var(--gold)">⭐ ٤.٨ (٢٣٤)</div></div><div style="font-size:8px;color:var(--warm-gray);margin-top:2px">كبسات · مندي · جريش</div><div style="display:flex;gap:6px;margin-top:5px"><span style="font-size:7px;color:var(--earth);background:var(--tan-pale);padding:2px 6px;border-radius:5px">⏱ ٣٠-٤٥ د</span><span style="font-size:7px;color:var(--earth);background:var(--tan-pale);padding:2px 6px;border-radius:5px">🚗 توصيل مجاني</span></div></div></div>
+          <div style="background:var(--sand);border-radius:14px;overflow:hidden;margin-bottom:8px"><div style="height:55px;background:linear-gradient(135deg,var(--tan),rgba(140,110,84,.25));display:flex;align-items:center;justify-content:center;position:relative"><span style="font-size:24px;opacity:.25">🍽️</span><span style="position:absolute;top:6px;right:6px;font-size:6px;background:var(--brown-dark);color:var(--gold);padding:2px 6px;border-radius:5px;font-family:'Noto Kufi Arabic',sans-serif">جديد</span></div><div style="padding:8px 12px"><div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:10px;font-weight:700;font-family:'Noto Kufi Arabic',serif">بيت الكبسة</div><div style="font-size:8px;color:var(--gold)">⭐ ٤.٩ (١٨٧)</div></div><div style="font-size:8px;color:var(--warm-gray);margin-top:2px">كبسة حجازية · مضغوط</div></div></div>
+        </div>
+        <div class="lphone-bnav"><span>🏠<small>الرئيسية</small></span><span>🔍<small>اكتشف</small></span><span>🛒<small>السلة</small></span><span>📋<small>طلباتي</small></span><span>👤<small>حسابي</small></span></div>
+      </div><div class="lphone-bar"><div></div></div></div>
+    </div>
+
+    <!-- LAYOUT 3 -->
+    <div class="lphone-wrap"><strong>تخطيط ٣</strong><em>سوق موثوق — مثل إير بي إن بي</em>
+      <div class="lphone"><div class="lphone-notch"><div></div></div><div class="lphone-content" style="direction:rtl">
+        <!-- Header light -->
+        <div style="background:var(--cream);padding:14px 16px 0">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div><div style="color:var(--warm-gray);font-size:8px">مرحباً بك في</div><div style="color:var(--brown-dark);font-size:16px;font-weight:800;font-family:'Noto Kufi Arabic',serif">سنع</div></div><div style="display:flex;gap:5px"><div style="background:var(--sand);border-radius:8px;padding:5px 8px;display:flex;align-items:center;gap:3px"><span style="font-size:10px">📍</span><span style="font-size:8px;font-family:'Noto Kufi Arabic',sans-serif;color:var(--brown);font-weight:600">الرياض</span></div><div style="width:28px;height:28px;border-radius:8px;background:var(--sand);display:flex;align-items:center;justify-content:center;font-size:12px">🔔</div></div></div>
+          <div style="background:var(--sand);border-radius:12px;padding:10px 12px;display:flex;align-items:center;gap:6px;border:1px solid var(--tan-pale)"><span style="font-size:12px">🔍</span><span style="color:var(--warm-gray);font-size:9px;font-family:'Noto Kufi Arabic',sans-serif">ابحث عن مطبخ، طبق، أو نوع...</span></div>
+          <!-- Schedule toggle -->
+          <div style="display:flex;gap:5px;margin-top:10px;margin-bottom:10px"><div style="flex:1;background:var(--brown-dark);border-radius:8px;padding:7px 10px;text-align:center"><div style="font-size:8px;font-weight:700;color:var(--tan-light);font-family:'Noto Kufi Arabic',sans-serif">🕐 اطلب الآن</div></div><div style="flex:1;background:var(--sand);border-radius:8px;padding:7px 10px;text-align:center;border:1px solid var(--tan-pale)"><div style="font-size:8px;font-weight:600;color:var(--earth);font-family:'Noto Kufi Arabic',sans-serif">📅 جدولة طلب</div></div></div>
+        </div>
+        <!-- Filters -->
+        <div style="padding:0 14px 10px;display:flex;gap:5px;overflow-x:auto;background:var(--cream)">
+          <span style="padding:4px 8px;border-radius:6px;font-size:7px;font-weight:600;font-family:'Noto Kufi Arabic',sans-serif;background:var(--gold);color:var(--brown-deep);white-space:nowrap">✓ موثق</span>
+          <span style="padding:4px 8px;border-radius:6px;font-size:7px;font-weight:600;font-family:'Noto Kufi Arabic',sans-serif;background:var(--sand);color:var(--earth);white-space:nowrap;border:1px solid var(--tan-pale)">نجدي</span>
+          <span style="padding:4px 8px;border-radius:6px;font-size:7px;font-weight:600;font-family:'Noto Kufi Arabic',sans-serif;background:var(--sand);color:var(--earth);white-space:nowrap;border:1px solid var(--tan-pale)">حجازي</span>
+          <span style="padding:4px 8px;border-radius:6px;font-size:7px;font-weight:600;font-family:'Noto Kufi Arabic',sans-serif;background:var(--sand);color:var(--earth);white-space:nowrap;border:1px solid var(--tan-pale)">صحي</span>
+          <span style="padding:4px 8px;border-radius:6px;font-size:7px;font-weight:600;font-family:'Noto Kufi Arabic',sans-serif;background:var(--sand);color:var(--earth);white-space:nowrap;border:1px solid var(--tan-pale)">كيتو</span>
+        </div>
+        <div style="height:1px;background:var(--tan-pale)"></div>
+        <!-- Vendor profiles -->
+        <div style="padding:12px 14px"><div style="font-size:11px;font-weight:700;font-family:'Noto Kufi Arabic',serif;margin-bottom:10px">طبّاخون بالقرب منك</div>
+          <!-- Vendor 1 -->
+          <div style="background:var(--cream);border-radius:14px;margin-bottom:10px;border:1px solid var(--tan-pale);overflow:hidden">
+            <div style="padding:12px 12px 8px;display:flex;gap:10px;align-items:flex-start">
+              <div style="position:relative;flex-shrink:0"><div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--tan),var(--earth));display:flex;align-items:center;justify-content:center;font-size:18px">👩‍🍳</div><div style="position:absolute;bottom:-2px;right:-2px;width:14px;height:14px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:7px;border:2px solid var(--cream)">✓</div></div>
+              <div style="flex:1"><div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:10px;font-weight:700;font-family:'Noto Kufi Arabic',serif">أم نورة</div><div style="font-size:7px;color:var(--gold)">⭐ ٤.٨ (٢٣٤)</div></div><div style="font-size:8px;color:var(--warm-gray);margin-top:1px">📍 حي النرجس · طبخ نجدي تقليدي</div><div style="display:flex;gap:3px;margin-top:5px;flex-wrap:wrap"><span style="font-size:6px;background:var(--sand);color:var(--brown);padding:2px 5px;border-radius:4px">كبسة لحم</span><span style="font-size:6px;background:var(--sand);color:var(--brown);padding:2px 5px;border-radius:4px">جريش</span><span style="font-size:6px;background:var(--sand);color:var(--brown);padding:2px 5px;border-radius:4px">مرقوق</span></div></div>
+            </div>
+            <div style="padding:7px 12px;background:var(--sand);display:flex;justify-content:space-between;align-items:center"><div style="display:flex;gap:6px;align-items:center"><span style="font-size:7px;color:var(--earth)">٢٥-٤٥ ر.س</span><span style="font-size:7px;color:#4A8C3A">● متاح اليوم</span></div><div style="background:var(--brown-dark);border-radius:6px;padding:4px 10px;color:var(--tan-light);font-size:8px;font-weight:700;font-family:'Noto Kufi Arabic',serif">عرض القائمة</div></div>
+          </div>
+          <!-- Vendor 2 -->
+          <div style="background:var(--cream);border-radius:14px;margin-bottom:10px;border:1px solid var(--tan-pale);overflow:hidden">
+            <div style="padding:12px 12px 8px;display:flex;gap:10px;align-items:flex-start">
+              <div style="position:relative;flex-shrink:0"><div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--tan),var(--earth));display:flex;align-items:center;justify-content:center;font-size:18px">👩‍🍳</div><div style="position:absolute;bottom:-2px;right:-2px;width:14px;height:14px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:7px;border:2px solid var(--cream)">✓</div></div>
+              <div style="flex:1"><div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:10px;font-weight:700;font-family:'Noto Kufi Arabic',serif">أم عبدالله</div><div style="font-size:7px;color:var(--gold)">⭐ ٤.٩ (١٨٧)</div></div><div style="font-size:8px;color:var(--warm-gray);margin-top:1px">📍 حي الملقا · مأكولات حجازية</div><div style="display:flex;gap:3px;margin-top:5px;flex-wrap:wrap"><span style="font-size:6px;background:var(--sand);color:var(--brown);padding:2px 5px;border-radius:4px">سليق</span><span style="font-size:6px;background:var(--sand);color:var(--brown);padding:2px 5px;border-radius:4px">مضغوط</span><span style="font-size:6px;background:var(--sand);color:var(--brown);padding:2px 5px;border-radius:4px">فول</span></div></div>
+            </div>
+            <div style="padding:7px 12px;background:var(--sand);display:flex;justify-content:space-between;align-items:center"><div style="display:flex;gap:6px;align-items:center"><span style="font-size:7px;color:var(--earth)">٢٠-٤٠ ر.س</span><span style="font-size:7px;color:var(--warm-gray)">● متاح غداً</span></div><div style="background:var(--brown-dark);border-radius:6px;padding:4px 10px;color:var(--tan-light);font-size:8px;font-weight:700;font-family:'Noto Kufi Arabic',serif">عرض القائمة</div></div>
+          </div>
+          <!-- Vendor 3 -->
+          <div style="background:var(--cream);border-radius:14px;border:1px solid var(--tan-pale);overflow:hidden">
+            <div style="padding:12px 12px 8px;display:flex;gap:10px;align-items:flex-start">
+              <div style="position:relative;flex-shrink:0"><div style="width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--tan),var(--earth));display:flex;align-items:center;justify-content:center;font-size:18px">👩‍🍳</div><div style="position:absolute;bottom:-2px;right:-2px;width:14px;height:14px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:7px;border:2px solid var(--cream)">✓</div></div>
+              <div style="flex:1"><div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:10px;font-weight:700;font-family:'Noto Kufi Arabic',serif">سارة المطيري</div><div style="font-size:7px;color:var(--gold)">⭐ ٤.٧ (١١٢)</div></div><div style="font-size:8px;color:var(--warm-gray);margin-top:1px">📍 حي العارض · حلويات وفطور</div><div style="display:flex;gap:3px;margin-top:5px;flex-wrap:wrap"><span style="font-size:6px;background:var(--sand);color:var(--brown);padding:2px 5px;border-radius:4px">عريكة</span><span style="font-size:6px;background:var(--sand);color:var(--brown);padding:2px 5px;border-radius:4px">معصوب</span><span style="font-size:6px;background:var(--sand);color:var(--brown);padding:2px 5px;border-radius:4px">كليجا</span></div></div>
+            </div>
+            <div style="padding:7px 12px;background:var(--sand);display:flex;justify-content:space-between;align-items:center"><div style="display:flex;gap:6px;align-items:center"><span style="font-size:7px;color:var(--earth)">١٥-٣٥ ر.س</span><span style="font-size:7px;color:#4A8C3A">● متاح اليوم</span></div><div style="background:var(--brown-dark);border-radius:6px;padding:4px 10px;color:var(--tan-light);font-size:8px;font-weight:700;font-family:'Noto Kufi Arabic',serif">عرض القائمة</div></div>
+          </div>
+        </div>
+        <div class="lphone-bnav"><span>🏠<small>الرئيسية</small></span><span>🔍<small>اكتشف</small></span><span>🛒<small>السلة</small></span><span>📋<small>طلباتي</small></span><span>👤<small>حسابي</small></span></div>
+      </div><div class="lphone-bar"><div></div></div></div>
+    </div>
+  </div>
+
+  <!-- Comparison table -->
+  <div class="compare-table">
+    <div class="compare-head"><span>مقارنة سريعة</span></div>
+    <div class="compare-row"><span class="feat">أسلوب التصميم</span><span class="val">شبكي / سريع</span><span class="val">تحريري / قصصي</span><span class="val">ملفات شخصية</span></div>
+    <div class="compare-row"><span class="feat">سرعة الطلب</span><span class="val">⚡⚡⚡</span><span class="val">⚡⚡</span><span class="val">⚡⚡</span></div>
+    <div class="compare-row"><span class="feat">بناء الثقة</span><span class="val">⭐⭐</span><span class="val">⭐⭐⭐</span><span class="val">⭐⭐⭐⭐</span></div>
+    <div class="compare-row"><span class="feat">الاكتشاف</span><span class="val">⭐⭐</span><span class="val">⭐⭐⭐⭐</span><span class="val">⭐⭐⭐</span></div>
+    <div class="compare-row"><span class="feat">الجدولة المسبقة</span><span class="val">—</span><span class="val">—</span><span class="val">✓ أساسي</span></div>
+    <div class="compare-row"><span class="feat">الفلترة المتقدمة</span><span class="val">فئات فقط</span><span class="val">مجموعات</span><span class="val">فلاتر كاملة</span></div>
+    <div class="compare-row"><span class="feat">إعادة الطلب</span><span class="val">✓ بارز</span><span class="val">—</span><span class="val">—</span></div>
+    <div class="compare-row"><span class="feat">المرجع العالمي</span><span class="val">طلبات / هنقرستيشن</span><span class="val">ذا شفز / ديليفرو</span><span class="val">إير بي إن بي / إتسي</span></div>
+  </div>
+
+  <!-- Recommendation -->
+  <div class="recommend">
+    <div class="lattice" style="position:absolute;inset:0;opacity:.03"></div>
+    <div style="position:relative;z-index:1"><div style="font-size:9px;color:var(--gold);font-weight:700;margin-bottom:6px;font-family:'Noto Kufi Arabic',serif">💡 توصيت لـ سنع</div>
+    <div style="font-size:16px;font-weight:800;color:var(--tan-light);font-family:'Noto Kufi Arabic',serif;margin-bottom:8px">ادمج التخطيط ٣ مع عناصر من ١ و ٢</div>
+    <div style="font-size:12px;color:var(--tan-pale);line-height:1.8;font-family:'Noto Kufi Arabic',sans-serif">بما أن سنع سوق للأسر المنتجة، التخطيط ٣ (سوق موثوق) يناسب أكثر لأنه يركز على الثقة وملفات الطباخين. أضف سرعة الطلب من التخطيط ١ وقصص المطابخ من التخطيط ٢ للحصول على أفضل تجربة.</div></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer grain">
+  <svg viewBox="0 0 400 24" style="width:100%;height:24px;display:block;opacity:.06;margin-bottom:8px" preserveAspectRatio="none"><path d="M0,24 L0,16 L20,16 L20,10 L24,7 L28,10 L32,10 L32,16 L70,16 L70,11 L74,8 L78,11 L82,11 L82,16 L120,16 L120,10 L124,7 L128,10 L132,10 L132,16 L180,16 L180,11 L184,8 L188,11 L192,11 L192,16 L240,16 L240,10 L244,7 L248,10 L252,10 L252,16 L300,16 L300,11 L304,8 L308,11 L312,11 L312,16 L400,16 L400,24Z" fill="#D4BE9C"/></svg>
+  <div class="logo-compact dark" style="width:48px;height:48px;margin:0 auto;position:relative;z-index:1"><span class="brand" style="font-size:16px">سنع</span></div>
+  <div style="color:rgba(212,190,156,.27);font-size:11px;margin-top:8px;font-family:'Noto Kufi Arabic',serif;position:relative;z-index:1;direction:rtl">دليل الهوية البصرية — نسخة الدرعية — ٢٠٢٦</div>
+</footer>
+
+<script>
+function show(id, el) {
+  document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav a').forEach(a => a.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
 }
-
-ReactDOM.render(<SenaIdentity />, document.getElementById('root'));
-  </script>
+// Scroll-based nav
+const sects = document.querySelectorAll('section[id]');
+const links = document.querySelectorAll('.nav a');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) {
+    links.forEach(a => a.classList.remove('active'));
+    const idx = [...sects].indexOf(e.target);
+    if (links[idx]) links[idx].classList.add('active');
+  }});
+}, { rootMargin: '-40% 0px -40% 0px' });
+sects.forEach(s => obs.observe(s));
+</script>
 </body>
 </html>
