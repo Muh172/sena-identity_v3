@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SENA Diriyah Identity Preview v3</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body { margin: 0; font-family: 'Cormorant Garamond', serif; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+const C = {
+  tan: "#C4A882", tanLight: "#D4BE9C", tanPale: "#E8D8C0",
+  sand: "#F2E8D5", cream: "#F8F3EB", parchment: "#FAF6EE",
+  brown: "#6B4F3A", brownDark: "#4A3628", brownDeep: "#3B2A1E",
+  earth: "#8C6E54", gold: "#B8963E", goldMuted: "#A68A50",
+  charcoal: "#2E2318", warmGray: "#9A8D7E",
+};
+
+const NajdiSkyline = ({ color = C.brownDark, height = 60, opacity = 0.12 }) => (
+  <svg viewBox="0 0 400 60" style={{ width: "100%", height, opacity, display: "block" }} preserveAspectRatio="none">
+    <path d="M0,60 L0,45 L15,45 L15,30 L20,30 L20,22 L25,22 L25,30 L30,30 L30,45 L50,45 L50,35 L55,35 L55,20 L58,15 L61,20 L65,20 L65,35 L70,35 L70,45 L90,45 L90,28 L95,28 L95,18 L100,12 L105,18 L110,18 L110,28 L115,28 L115,45 L140,45 L140,38 L145,38 L145,25 L150,20 L155,25 L160,25 L160,38 L165,38 L165,45 L200,45 L200,32 L205,32 L205,22 L208,16 L211,22 L215,22 L215,32 L220,32 L220,45 L260,45 L260,35 L265,35 L265,20 L268,14 L271,20 L275,20 L275,35 L280,35 L280,45 L400,45 L400,60 Z" fill={color} />
+  </svg>
+);
+
+const ZigzagBorder = ({ color = C.tan, count = 24, size = 12 }) => (
+  <div style={{ display: "flex", justifyContent: "center", overflow: "hidden", height: size, direction: "ltr" }}>
+    {Array.from({ length: count }, (_, i) => (
+      <div key={i} style={{ width: 0, height: 0, borderLeft: `${size * 0.65}px solid transparent`, borderRight: `${size * 0.65}px solid transparent`, borderTop: `${size}px solid ${color}`, margin: "0 0.5px" }} />
+    ))}
+  </div>
+);
+
+const GrainOverlay = () => (
+  <div style={{ position: "absolute", inset: 0, pointerEvents: "none", opacity: 0.05, backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")` }} />
+);
+
+const LatticePattern = ({ color = C.tan, opacity = 0.06 }) => (
+  <div style={{ position: "absolute", inset: 0, pointerEvents: "none", opacity, backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 22px, ${color} 22px, ${color} 23px), repeating-linear-gradient(-45deg, transparent, transparent 22px, ${color} 22px, ${color} 23px)` }} />
+);
+
+/* ═══════════════════════════════════════════════════════
+   GEOMETRIC LOGO — سنع  
+   Arabic RTL order: س (RIGHT) → ن (MIDDLE) → ع (LEFT)
+   All letters designed as architectural Arabic blocks
+   ═══════════════════════════════════════════════════════ */
+
+const LogoGeometric = ({ size = 280, dark = true, showIcons = true }) => {
+  const bg = dark ? C.brownDeep : C.cream;
+  const fg = dark ? C.tanLight : C.brownDark;
+  const accent = dark ? C.gold : C.goldMuted;
+
+  return (
+    <div style={{
+      background: bg, borderRadius: 20,
+      padding: showIcons ? "24px 28px" : "18px 24px",
+      display: "inline-flex", flexDirection: "column", alignItems: "center",
+      gap: showIcons ? 14 : 8, position: "relative", overflow: "hidden",
+    }}>
+      <GrainOverlay />
+
+      {showIcons && (
+        <div style={{ display: "flex", gap: 20, position: "relative", zIndex: 1, opacity: 0.45 }}>
+          <svg width="18" height="18" viewBox="0 0 24 24"><rect x="8" y="6" width="8" height="18" fill={fg} /><rect x="6" y="14" width="12" height="2" fill={fg} /><rect x="10" y="2" width="4" height="5" fill={fg} /><rect x="11" y="0" width="2" height="3" fill={fg} opacity=".7" /></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2" fill={fg} /><rect x="4" y="8" width="16" height="3" fill={fg} /><rect x="10" y="4" width="4" height="5" fill={fg} /><rect x="8" y="2" width="2" height="3" fill={fg} opacity=".6" /><rect x="14" y="2" width="2" height="3" fill={fg} opacity=".6" /></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24"><ellipse cx="12" cy="18" rx="10" ry="4" fill={fg} /><path d="M4,16 Q12,4 20,16" fill="none" stroke={fg} strokeWidth="2" /></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24"><path d="M4,20 L4,12 L6,12 L6,8 L8,6 L10,6 L10,8 L14,8 L14,6 L16,4 L17,6 L18,8 L18,12 L20,12 L20,20" fill="none" stroke={fg} strokeWidth="1.5" strokeLinejoin="round" /></svg>
+        </div>
+      )}
+
+      {/* Main geometric wordmark — RTL: س (right) ن (middle) ع (left) */}
+      <svg width={size} height={size * 0.48} viewBox="0 0 280 132" style={{ position: "relative", zIndex: 1 }}>
+
+        {/* ═══ س (sin) — RIGHT SIDE — three rising teeth ═══ */}
+        {/* Tallest tooth */}
+        <rect x="250" y="28" width="11" height="68" fill={fg} />
+        {/* Middle tooth */}
+        <rect x="228" y="40" width="11" height="56" fill={fg} />
+        {/* Shortest tooth */}
+        <rect x="206" y="50" width="11" height="46" fill={fg} />
+        {/* Base bar */}
+        <rect x="186" y="85" width="75" height="11" fill={fg} />
+
+        {/* ═══ ن (nun) — MIDDLE — bowl with dot ═══ */}
+        {/* Right wall */}
+        <rect x="168" y="55" width="11" height="41" fill={fg} />
+        {/* Base */}
+        <rect x="112" y="85" width="67" height="11" fill={fg} />
+        {/* Left wall */}
+        <rect x="112" y="55" width="11" height="41" fill={fg} />
+        {/* Gold square dot above */}
+        <rect x="134" y="37" width="13" height="13" fill={accent} />
+
+        {/* ═══ ع (ain) — LEFT SIDE — open-top Arabic ain shape ═══ */}
+        {/* Right vertical (tall pillar) */}
+        <rect x="90" y="28" width="11" height="68" fill={fg} />
+        {/* Top cap — short horizontal, only extends partway left */}
+        <rect x="62" y="28" width="39" height="11" fill={fg} />
+        {/* — open gap here = the "eye" of the ع — */}
+        {/* Middle horizontal — extends further left than top */}
+        <rect x="32" y="55" width="69" height="11" fill={fg} />
+        {/* Descender — drops from left end of middle bar */}
+        <rect x="32" y="55" width="11" height="38" fill={fg} />
+        {/* Descender foot — kicks left */}
+        <rect x="18" y="82" width="25" height="11" fill={fg} />
+
+        {/* Connection bar — ع to ن baseline */}
+        <rect x="93" y="85" width="30" height="11" fill={fg} />
+
+        {/* Diagonal slash accent — between ن and س */}
+        <rect x="188" y="18" width="4" height="36" fill={accent} opacity=".55" transform="rotate(-18 190 36)" />
+      </svg>
+
+      {/* Arabic subtitle */}
+      <div style={{ position: "relative", zIndex: 1, display: "flex", alignItems: "center", gap: 10 }}>
+        <div style={{ width: 18, height: 1, background: accent, opacity: 0.4 }} />
+        <span style={{ fontSize: 13, fontWeight: 700, letterSpacing: 7, color: accent, fontFamily: "'Cormorant Garamond', serif" }}>
+          SENع
+        </span>
+        <div style={{ width: 18, height: 1, background: accent, opacity: 0.4 }} />
+      </div>
+
+      {showIcons && (
+        <div style={{ display: "flex", gap: 20, position: "relative", zIndex: 1, opacity: 0.3 }}>
+          <svg width="15" height="15" viewBox="0 0 24 24"><path d="M4,20 L4,12 L6,12 L6,8 L8,6 L10,6 L10,8 L14,8 L14,6 L16,4 L17,6 L18,8 L18,12 L20,12 L20,20" fill="none" stroke={fg} strokeWidth="1.5" strokeLinejoin="round" /></svg>
+          <svg width="15" height="15" viewBox="0 0 24 24"><rect x="8" y="6" width="8" height="18" fill={fg} /><rect x="10" y="2" width="4" height="5" fill={fg} /></svg>
+          <svg width="15" height="15" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2" fill={fg} /><rect x="4" y="8" width="16" height="3" fill={fg} /><rect x="10" y="4" width="4" height="5" fill={fg} /></svg>
+          <svg width="15" height="15" viewBox="0 0 24 24"><ellipse cx="12" cy="18" rx="10" ry="4" fill={fg} /><path d="M4,16 Q12,4 20,16" fill="none" stroke={fg} strokeWidth="2" /></svg>
+        </div>
+      )}
+    </div>
+  );
+};
+
+/* Compact app icon — RTL corrected */
+const LogoCompact = ({ size = 80, dark = true }) => {
+  const bg = dark ? C.brownDeep : C.tan;
+  const fg = dark ? C.tanLight : C.cream;
+  const accent = dark ? C.gold : C.brownDark;
+  return (
+    <svg width={size} height={size} viewBox="0 0 80 80">
+      <rect width="80" height="80" rx="18" fill={bg} />
+
+      {/* س (sin) — RIGHT — three teeth */}
+      <rect x="66" y="18" width="5" height="34" fill={fg} />
+      <rect x="56" y="25" width="5" height="27" fill={fg} />
+      <rect x="46" y="30" width="5" height="22" fill={fg} />
+      <rect x="42" y="48" width="29" height="5" fill={fg} />
+
+      {/* ن (nun) — MIDDLE — bowl */}
+      <rect x="38" y="32" width="5" height="21" fill={fg} />
+      <rect x="24" y="48" width="19" height="5" fill={fg} />
+      <rect x="24" y="32" width="5" height="21" fill={fg} />
+      {/* Gold dot */}
+      <rect x="29" y="24" width="6" height="6" fill={accent} />
+
+      {/* ع (ain) — LEFT — open-top ain */}
+      <rect x="18" y="18" width="5" height="35" fill={fg} />
+      {/* Short top cap */}
+      <rect x="12" y="18" width="11" height="5" fill={fg} />
+      {/* — open eye gap — */}
+      {/* Middle bar extends further left */}
+      <rect x="6" y="31" width="17" height="5" fill={fg} />
+      {/* Descender */}
+      <rect x="6" y="31" width="5" height="18" fill={fg} />
+      <rect x="3" y="45" width="8" height="5" fill={fg} />
+
+      {/* Connection baseline */}
+      <rect x="19" y="48" width="12" height="5" fill={fg} />
+
+      {/* Diagonal accent */}
+      <rect x="43" y="13" width="2" height="14" fill={accent} opacity=".5" transform="rotate(-18 44 20)" />
+
+      {/* Arabic subtitle */}
+      <text x="40" y="68" textAnchor="middle" fontSize="7" fill={accent} fontFamily="'Cormorant Garamond', serif" fontWeight="700" letterSpacing="3">SENع</text>
+    </svg>
+  );
+};
+
+const Swatch = ({ color, name, hex }) => (
+  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+    <div style={{ width: 76, height: 76, borderRadius: "50%", background: color, boxShadow: `0 6px 20px ${color}44`, border: hex === "#F8F3EB" ? `1px solid ${C.tanPale}` : "none" }} />
+    <span style={{ fontSize: 11, fontWeight: 700, color: C.brownDark }}>{name}</span>
+    <span style={{ fontSize: 9, color: C.warmGray, fontFamily: "monospace" }}>{hex}</span>
+  </div>
+);
+
+const PhoneMockup = ({ children, label }) => (
+  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 10 }}>
+    <span style={{ fontSize: 11, color: C.goldMuted, fontWeight: 700, fontFamily: "'Noto Kufi Arabic', serif" }}>{label}</span>
+    <div style={{ width: 240, borderRadius: 32, border: `2.5px solid ${C.brownDark}`, overflow: "hidden", background: C.cream, boxShadow: `0 24px 64px ${C.brownDark}22` }}>
+      <div style={{ height: 22, background: C.brownDark, display: "flex", justifyContent: "center" }}>
+        <div style={{ width: 68, height: 18, background: C.charcoal, borderRadius: "0 0 12px 12px" }} />
+      </div>
+      {children}
+      <div style={{ display: "flex", justifyContent: "center", padding: "8px 0 14px" }}>
+        <div style={{ width: 80, height: 4, borderRadius: 2, background: C.charcoal, opacity: 0.15 }} />
+      </div>
+    </div>
+  </div>
+);
+
+function SenaIdentity() {
+  const [section, setSection] = React.useState("cover");
+  const [loaded, setLoaded] = React.useState(false);
+  React.useEffect(() => { setTimeout(() => setLoaded(true), 100); }, []);
+
+  const nav = [
+    { id: "cover", label: "نظرة عامة" },
+    { id: "palette", label: "الألوان" },
+    { id: "type", label: "الخطوط" },
+    { id: "elements", label: "العناصر" },
+    { id: "screens", label: "التطبيق" },
+  ];
+
+  return (
+    <div style={{ fontFamily: "'Cormorant Garamond', serif", background: C.parchment, minHeight: "100vh", color: C.brownDark, transition: "opacity 0.6s", opacity: loaded ? 1 : 0 }}>
+      <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;600;700;800&family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+
+      {/* HERO */}
+      <div style={{ background: `linear-gradient(170deg, ${C.brownDeep} 0%, ${C.brown} 60%, ${C.earth} 100%)`, padding: "48px 24px 0", position: "relative", overflow: "hidden", textAlign: "center" }}>
+        <GrainOverlay />
+        <LatticePattern color={C.gold} opacity={0.03} />
+        <div style={{ position: "relative", zIndex: 1 }}>
+          <div style={{ display: "inline-block", background: `${C.gold}18`, borderRadius: 20, padding: "6px 20px", marginBottom: 24 }}>
+            <span style={{ color: C.tanLight, fontSize: 11, fontWeight: 700, fontFamily: "'Noto Kufi Arabic', serif", direction: "rtl" }}>◇&nbsp;&nbsp;دليل الهوية البصرية — نسخة الدرعية&nbsp;&nbsp;◇</span>
+          </div>
+          <div style={{ margin: "0 auto 20px" }}>
+            <LogoGeometric size={240} dark showIcons />
+          </div>
+          <p style={{ color: C.tanPale, fontSize: 14, fontWeight: 700, fontFamily: "'Noto Kufi Arabic', serif", margin: "0 0 8px", direction: "rtl" }}>بيتي · موصّل · موثوق</p>
+          <p style={{ color: `${C.tanLight}55`, fontSize: 12, margin: "0 0 28px", fontFamily: "'Noto Kufi Arabic', serif", direction: "rtl" }}>مستوحاة من تراث الدرعية</p>
+        </div>
+        <div style={{ position: "relative", zIndex: 1 }}><NajdiSkyline color={C.parchment} height={48} opacity={0.3} /></div>
+      </div>
+      <ZigzagBorder color={C.tan} count={30} size={10} />
+
+      {/* NAV */}
+      <div style={{ display: "flex", gap: 2, padding: "14px 16px", overflowX: "auto", position: "sticky", top: 0, zIndex: 20, background: C.parchment, borderBottom: `1px solid ${C.tanPale}`, direction: "rtl", justifyContent: "center" }}>
+        {nav.map(n => (
+          <button key={n.id} onClick={() => setSection(n.id)} style={{ padding: "7px 16px", borderRadius: 8, border: "none", cursor: "pointer", fontSize: 12, fontWeight: 700, fontFamily: "'Noto Kufi Arabic', serif", background: section === n.id ? C.brownDark : "transparent", color: section === n.id ? C.tanLight : C.earth, transition: "all 0.25s", whiteSpace: "nowrap" }}>{n.label}</button>
+        ))}
+      </div>
+
+      <div style={{ padding: "28px 20px 40px", maxWidth: 860, margin: "0 auto" }}>
+
+        {/* نظرة عامة */}
+        {section === "cover" && (
+          <div>
+            <div style={{ textAlign: "center", marginBottom: 28 }}>
+              <h2 style={{ fontFamily: "'Noto Kufi Arabic', serif", fontSize: 26, fontWeight: 800, margin: "8px 0 6px", direction: "rtl" }}>هوية بصرية مستوحاة من الدرعية</h2>
+              <p style={{ fontSize: 14, color: C.warmGray, maxWidth: 520, margin: "0 auto", lineHeight: 1.8, fontFamily: "'Noto Kufi Arabic', serif", direction: "rtl" }}>حروف عربية هندسية مبنية من كتل معمارية — مستوحاة من عمارة الدرعية النجدية</p>
+            </div>
+
+            <div style={{ background: C.sand, borderRadius: 20, padding: 28, border: `1px solid ${C.tanPale}`, position: "relative", overflow: "hidden", marginBottom: 28 }}>
+              <LatticePattern color={C.tan} opacity={0.05} />
+              <p style={{ fontSize: 14, lineHeight: 2, color: C.brownDark, position: "relative", zIndex: 1, margin: "0 0 20px", fontFamily: "'Noto Kufi Arabic', serif", direction: "rtl", textAlign: "right" }}>
+                شعار <strong style={{ color: C.brown }}>سنع</strong> مبني من <strong style={{ color: C.goldMuted }}>كتل مستطيلة</strong> ويُقرأ من اليمين لليسار. حرف <strong>السين</strong> على اليمين بثلاثة أسنان كشرفات الأبراج، و<strong>النون</strong> في الوسط كفناء بنقطة ذهبية، و<strong>العين</strong> على اليسار كبوابة نجدية بمدخل متصل.
+              </p>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 12, position: "relative", zIndex: 1 }}>
+                {[
+                  { t: "س — أسنان الأبراج", d: "ثلاثة أعمدة صاعدة على اليمين كأبراج الدرعية" },
+                  { t: "ن — فناء البيت", d: "جدارين مع قاعدة ونقطة ذهبية في الأعلى" },
+                  { t: "ع — البوابة النجدية", d: "شكل بوابة بعارضتين أفقيتين ومنزل سفلي" },
+                  { t: "أيقونات رمزية", d: "برج · قدر · طبق · إبل — تحيط بالشعار" },
+                ].map((p, i) => (
+                  <div key={i} style={{ background: C.cream, borderRadius: 14, padding: 16, borderRight: `3px solid ${C.goldMuted}` }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: C.brown, marginBottom: 4, fontFamily: "'Noto Kufi Arabic', serif", direction: "rtl" }}>{p.t}</div>
+                    <div style={{ fontSize: 11, color: C.warmGray, lineHeight: 1.6, fontFamily: "'Noto Kufi Arabic', serif", direction: "rtl" }}>{p.d}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ textAlign: "center", marginBottom: 12 }}>
+              <span style={{ fontSize: 13, color: C.goldMuted, fontWeight: 700, fontFamily: "'Noto Kufi Arabic', serif" }}>أشكال الشعار</span>
+            </div>
+            <div style={{ display: "flex", gap: 24, justifyContent: "center", flexWrap: "wrap", marginBottom: 28 }}>
+              <LogoGeometric size={240} dark showIcons />
+              <LogoGeometric size={240} dark={false} showIcons />
+            </div>
+
+            <div style={{ textAlign: "center", marginBottom: 12 }}>
+              <span style={{ fontSize: 13, color: C.goldMuted, fontWeight: 700, fontFamily: "'Noto Kufi Arabic', serif" }}>أحجام أيقونة التطبيق</span>
+            </div>
+            <div style={{ display: "flex", gap: 16, justifyContent: "center", alignItems: "end", flexWrap: "wrap" }}>
+              <LogoCompact size={80} dark />
+              <LogoCompact size={80} dark={false} />
+              <LogoCompact size={56} dark />
+              <LogoCompact size={44} dark={false} />
+              <LogoCompact size={36} dark />
+            </div>
+          </div>
+        )}
+
+        {/* الألوان */}
+        {section === "palette" && (
+          <div>
+            <div style={{ textAlign: "center", marginBottom: 28 }}>
+              <h2 style={{ fontFamily: "'Noto Kufi Arabic', serif", fontSize: 26, fontWeight: 800, margin: "8px 0 6px", direction: "rtl" }}>الألوان</h2>
+              <p style={{ fontSize: 13, color: C.warmGray, fontFamily: "'Noto Kufi Arabic', serif", direction: "rtl" }}>مستوحاة من لون الدرعية — مزيج من ١٥ مادة أصيلة</p>
+            </div>
+            {[
+              { label: "الأساسي — لون الدرعية", swatches: [{ color: C.tan, name: "لون الدرعية", hex: "#C4A882" }, { color: C.tanLight, name: "فاتح", hex: "#D4BE9C" }, { color: C.tanPale, name: "باهت", hex: "#E8D8C0" }] },
+              { label: "الأرض", swatches: [{ color: C.brown, name: "بني طيني", hex: "#6B4F3A" }, { color: C.brownDark, name: "أرض داكنة", hex: "#4A3628" }, { color: C.earth, name: "صحراوي", hex: "#8C6E54" }] },
+              { label: "التمييز", swatches: [{ color: C.gold, name: "ذهب تراثي", hex: "#B8963E" }, { color: C.charcoal, name: "ليل نجدي", hex: "#2E2318" }, { color: C.cream, name: "رق", hex: "#F8F3EB" }] },
+            ].map((group, gi) => (
+              <div key={gi} style={{ marginBottom: 28 }}>
+                <div style={{ fontSize: 13, color: C.goldMuted, fontWeight: 700, marginBottom: 14, textAlign: "center", fontFamily: "'Noto Kufi Arabic', serif", direction: "rtl" }}>{group.label}</div>
+                <div style={{ display: "flex", gap: 24, justifyContent: "center", flexWrap: "wrap" }}>{group.swatches.map((s, si) => <Swatch key={si} {...s} />)}</div>
+              </div>
+            ))}
+            <div style={{ height: 40, borderRadius: 12, background: `linear-gradient(90deg, ${C.brownDeep}, ${C.brown}, ${C.earth}, ${C.tan}, ${C.tanLight}, ${C.sand}, ${C.cream})` }} />
+          </div>
+        )}
+
+        {/* الخطوط */}
+        {section === "type" && (
+          <div>
+            <div style={{ textAlign: "center", marginBottom: 28 }}>
+              <h2 style={{ fontFamily: "'Noto Kufi Arabic', serif", fontSize: 26, fontWeight: 800, margin: "8px 0 6px", direction: "rtl" }}>الخطوط</h2>
+            </div>
+            <div style={{ background: C.sand, borderRadius: 16, padding: 24, marginBottom: 14, border: `1px solid ${C.tanPale}` }}>
+              <div style={{ fontSize: 13, color: C.goldMuted, fontWeight: 700, marginBottom: 12, fontFamily: "'Noto Kufi Arabic', serif", direction: "rtl" }}>خط الشعار — هندسي مخصص</div>
+              <div style={{ display: "flex", justifyContent: "center" }}><LogoGeometric size={200} dark showIcons={false} /></div>
+            </div>
+            {[
+              { label: "عناوين", ar: "طبخ بيتي · من أرض الدرعية", w: 700, s: 28 },
+              { label: "نص عادي", ar: "اكتشف مطابخ منزلية موثوقة بالقرب منك", w: 400, s: 20 },
+              { label: "أرقام وأسعار", ar: "٤٥ ر.س · ⭐ ٤.٨ · طلب رقم ١٠٢٤", w: 600, s: 22 },
+            ].map((t, i) => (
+              <div key={i} style={{ background: C.sand, borderRadius: 16, padding: 24, marginBottom: 14, border: `1px solid ${C.tanPale}` }}>
+                <div style={{ fontSize: 12, color: C.goldMuted, fontWeight: 700, marginBottom: 8, fontFamily: "'Noto Kufi Arabic', serif", direction: "rtl" }}>{t.label}</div>
+                <div style={{ fontSize: t.s, fontFamily: "'Noto Kufi Arabic', serif", fontWeight: t.w, color: C.brownDark, direction: "rtl", textAlign: "right" }}>{t.ar}</div>
+              </div>
+            ))}
+            <div style={{ marginTop: 20, background: C.brownDeep, borderRadius: 16, padding: 36, textAlign: "center", position: "relative", overflow: "hidden" }}>
+              <LatticePattern color={C.gold} opacity={0.03} /><GrainOverlay />
+              <div style={{ fontFamily: "'Noto Kufi Arabic', serif", fontSize: 34, fontWeight: 800, color: C.tanLight, position: "relative", zIndex: 1, marginBottom: 8, direction: "rtl" }}>سنع — من أرض الدرعية</div>
+              <div style={{ position: "relative", zIndex: 1 }}><NajdiSkyline color={C.tanPale} height={32} opacity={0.2} /></div>
+              <div style={{ fontFamily: "'Noto Kufi Arabic', serif", fontSize: 13, color: C.gold, position: "relative", zIndex: 1, marginTop: 8, direction: "rtl" }}>صُنع بإتقان من البيت</div>
+            </div>
+          </div>
+        )}
+
+        {/* العناصر */}
+        {section === "elements" && (
+          <div>
+            <div style={{ textAlign: "center", marginBottom: 28 }}>
+              <h2 style={{ fontFamily: "'Noto Kufi Arabic', serif", fontSize: 26, fontWeight: 800, margin: "8px 0 6px", direction: "rtl" }}>العناصر الزخرفية</h2>
+            </div>
+            <div style={{ background: C.sand, borderRadius: 16, padding: 24, marginBottom: 16, border: `1px solid ${C.tanPale}` }}>
+              <div style={{ fontSize: 13, color: C.goldMuted, fontWeight: 700, marginBottom: 12, fontFamily: "'Noto Kufi Arabic', serif", direction: "rtl" }}>٠١ — أيقونات رمزية</div>
+              <div style={{ background: C.brownDeep, borderRadius: 14, padding: 24, display: "flex", gap: 32, justifyContent: "center", flexWrap: "wrap" }}>
+                {[
+                  { label: "برج", icon: <svg width="36" height="36" viewBox="0 0 24 24"><rect x="8" y="6" width="8" height="18" fill={C.tanLight} /><rect x="6" y="14" width="12" height="2" fill={C.tanLight} /><rect x="10" y="2" width="4" height="5" fill={C.tanLight} /></svg> },
+                  { label: "قدر", icon: <svg width="36" height="36" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2" fill={C.tanLight} /><rect x="4" y="8" width="16" height="3" fill={C.tanLight} /><rect x="10" y="4" width="4" height="5" fill={C.tanLight} /></svg> },
+                  { label: "طبق", icon: <svg width="36" height="36" viewBox="0 0 24 24"><ellipse cx="12" cy="18" rx="10" ry="4" fill={C.tanLight} /><path d="M4,16 Q12,4 20,16" fill="none" stroke={C.tanLight} strokeWidth="2" /></svg> },
+                  { label: "إبل", icon: <svg width="36" height="36" viewBox="0 0 24 24"><path d="M4,20 L4,12 L6,12 L6,8 L8,6 L10,6 L10,8 L14,8 L14,6 L16,4 L17,6 L18,8 L18,12 L20,12 L20,20" fill="none" stroke={C.tanLight} strokeWidth="1.5" strokeLinejoin="round" /></svg> },
+                ].map((item, i) => (
+                  <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
+                    {item.icon}
+                    <span style={{ fontSize: 11, color: C.goldMuted, fontFamily: "'Noto Kufi Arabic', serif" }}>{item.label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div style={{ background: C.sand, borderRadius: 16, padding: 24, marginBottom: 16, border: `1px solid ${C.tanPale}` }}>
+              <div style={{ fontSize: 13, color: C.goldMuted, fontWeight: 700, marginBottom: 8, fontFamily: "'Noto Kufi Arabic', serif", direction: "rtl" }}>٠٢ — أفق نجدي</div>
+              <div style={{ background: C.brownDark, borderRadius: 12, padding: "24px 16px 0", overflow: "hidden" }}><NajdiSkyline color={C.tanLight} height={50} opacity={0.6} /></div>
+            </div>
+            <div style={{ background: C.sand, borderRadius: 16, padding: 24, border: `1px solid ${C.tanPale}` }}>
+              <div style={{ fontSize: 13, color: C.goldMuted, fontWeight: 700, marginBottom: 8, fontFamily: "'Noto Kufi Arabic', serif", direction: "rtl" }}>٠٣ — حدود متعرجة</div>
+              <div style={{ background: C.brownDark, borderRadius: 12, padding: "16px 12px", display: "flex", flexDirection: "column", gap: 10 }}>
+                <ZigzagBorder color={C.tanLight} count={18} size={12} />
+                <ZigzagBorder color={C.gold} count={18} size={10} />
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* التطبيق */}
+        {section === "screens" && (
+          <div>
+            <div style={{ textAlign: "center", marginBottom: 28 }}>
+              <h2 style={{ fontFamily: "'Noto Kufi Arabic', serif", fontSize: 26, fontWeight: 800, margin: "8px 0 6px", direction: "rtl" }}>تصاميم التطبيق</h2>
+            </div>
+            <div style={{ display: "flex", gap: 28, justifyContent: "center", flexWrap: "wrap" }}>
+              <PhoneMockup label="شاشة البداية">
+                <div style={{ background: C.brownDeep, height: 440, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", position: "relative", overflow: "hidden" }}>
+                  <GrainOverlay /><LatticePattern color={C.gold} opacity={0.025} />
+                  <div style={{ position: "relative", zIndex: 1 }}><LogoCompact size={72} dark /></div>
+                  <div style={{ marginTop: 16, position: "relative", zIndex: 1 }}><NajdiSkyline color={C.tanPale} height={28} opacity={0.12} /></div>
+                </div>
+              </PhoneMockup>
+
+              <PhoneMockup label="الرئيسية">
+                <div style={{ background: `linear-gradient(160deg, ${C.brownDeep}, ${C.brown})`, padding: "14px 16px 0", position: "relative", overflow: "hidden" }}>
+                  <LatticePattern color={C.gold} opacity={0.04} />
+                  <div style={{ position: "relative", zIndex: 1 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <div style={{ direction: "rtl" }}>
+                        <div style={{ color: C.tanPale, fontSize: 9, opacity: 0.6, fontFamily: "'Noto Kufi Arabic', serif" }}>أهلاً بك في</div>
+                        <LogoCompact size={28} dark />
+                      </div>
+                      <div style={{ width: 30, height: 30, borderRadius: "50%", background: `${C.tan}22`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 13 }}>🔔</div>
+                    </div>
+                    <div style={{ margin: "12px 0 0", background: `${C.tan}18`, borderRadius: 10, padding: "8px 12px", color: `${C.tanPale}66`, fontSize: 9, fontFamily: "'Noto Kufi Arabic'", direction: "rtl" }}>🔍 ابحث عن طبخات...</div>
+                  </div>
+                  <div style={{ marginTop: 10, position: "relative", zIndex: 1 }}><NajdiSkyline color={C.cream} height={20} opacity={0.15} /></div>
+                </div>
+                <ZigzagBorder color={C.tan} count={16} size={8} />
+                <div style={{ padding: "10px 14px", direction: "rtl" }}>
+                  <div style={{ fontSize: 10, fontWeight: 700, fontFamily: "'Noto Kufi Arabic', serif", color: C.brownDark, marginBottom: 8 }}>التصنيفات</div>
+                  <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
+                    {[{ e: "🍚", l: "وجبات", a: true }, { e: "🧁", l: "حلويات" }, { e: "☕", l: "فطور" }, { e: "🥗", l: "صحي" }].map((c, i) => (
+                      <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 3 }}>
+                        <div style={{ width: 36, height: 36, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 15, background: c.a ? C.tan : C.sand }}>{c.e}</div>
+                        <span style={{ fontSize: 7, fontWeight: 600, fontFamily: "'Noto Kufi Arabic'", color: c.a ? C.brown : C.warmGray }}>{c.l}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div style={{ fontSize: 10, fontWeight: 700, fontFamily: "'Noto Kufi Arabic', serif", color: C.brownDark, marginBottom: 8 }}>مطابخ مميزة</div>
+                  {[{ name: "مطبخ أم نورة", tag: "نجدي", rating: "٤.٨", bg: C.sand }, { name: "بيت الكبسة", tag: "حجازي", rating: "٤.٩", bg: C.tanPale }].map((v, i) => (
+                    <div key={i} style={{ background: v.bg, borderRadius: 10, padding: 10, marginBottom: 6, display: "flex", gap: 8, alignItems: "center" }}>
+                      <div style={{ width: 38, height: 38, borderRadius: 10, background: C.brown, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, flexShrink: 0 }}>🍽️</div>
+                      <div>
+                        <div style={{ fontSize: 10, fontWeight: 700, fontFamily: "'Noto Kufi Arabic', serif", color: C.brownDark }}>{v.name}</div>
+                        <div style={{ display: "flex", gap: 4, alignItems: "center", marginTop: 2 }}>
+                          <span style={{ fontSize: 7, background: C.brown, color: C.cream, padding: "1px 5px", borderRadius: 4 }}>{v.tag}</span>
+                          <span style={{ fontSize: 8, color: C.goldMuted }}>⭐ {v.rating}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-around", padding: "8px 0 6px", borderTop: `1px solid ${C.tanPale}` }}>
+                  {["🏠", "🔍", "🛒", "👤"].map((ic, i) => (<span key={i} style={{ fontSize: 15, opacity: i === 0 ? 1 : 0.3 }}>{ic}</span>))}
+                </div>
+              </PhoneMockup>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* FOOTER */}
+      <div style={{ background: C.charcoal, padding: "32px 24px", textAlign: "center", position: "relative", overflow: "hidden" }}>
+        <GrainOverlay /><NajdiSkyline color={C.tanPale} height={28} opacity={0.06} />
+        <div style={{ position: "relative", zIndex: 1 }}><LogoCompact size={48} dark /></div>
+        <div style={{ color: `${C.tanPale}44`, fontSize: 11, marginTop: 8, fontFamily: "'Noto Kufi Arabic', serif", position: "relative", zIndex: 1, direction: "rtl" }}>دليل الهوية البصرية — نسخة الدرعية — ٢٠٢٦</div>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.render(<SenaIdentity />, document.getElementById('root'));
+  </script>
+</body>
+</html>
